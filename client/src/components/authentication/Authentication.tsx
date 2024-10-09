@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { AuthModeTypes } from '../../enums/AuthModeTypes'
 import Login from './Login'
 import Register from './Register'
 
@@ -6,12 +7,17 @@ interface props {
     setIsAuthenticated: React.Dispatch<boolean>
 }
 
-const Authentication: React.FC<props> = ({setIsAuthenticated}) => {
+const Authentication: React.FC<props> = ({ setIsAuthenticated }) => {
+
+    const [authMode, setAuthMode] = useState(AuthModeTypes.LOGIN)
+    
     return (
-        <div>
-            <Login setIsAuthenticated={setIsAuthenticated}/>
-            <Register setIsAuthenticated={setIsAuthenticated}/>
-        </div>
+        <>
+            {authMode === AuthModeTypes.LOGIN ? <Login setAuthMode={setAuthMode}
+                setIsAuthenticated={setIsAuthenticated} />
+                : <Register setIsAuthenticated={setIsAuthenticated} setAuthMode={setAuthMode}></Register>}
+
+        </>
     )
 }
 

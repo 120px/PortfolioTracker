@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import Authentication from './components/authentication/Authentication'
+import LogoutBtn from './components/LogoutBtn'
 
 
 // Styling: https://mui.com/material-ui/
@@ -18,7 +19,7 @@ function App() {
 
   return (
     <>
-      {isAuthenticated == true ? null : <Authentication setIsAuthenticated={setIsAuthenticated} />}
+      {isAuthenticated == true ? <LogoutBtn/> : <Authentication setIsAuthenticated={setIsAuthenticated} />}
 
     </>
   )

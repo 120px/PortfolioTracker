@@ -33,3 +33,9 @@ def login_user(request):
         print("error")
         # If authentication fails, return an error response
         return Response({"detail": "Invalid credentials"}, status=401)
+
+@api_view(["POST"])
+def logout_user(request):
+    return Response({
+        
+    })
