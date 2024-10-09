@@ -1,6 +1,6 @@
 import React from 'react'
 import AuthProps from "../../interfaces/AuthProps"
-import { Button } from '@mui/material';
+import { Button } from '../ui/button'
 
 interface props{
     setIsAuthenticated: React.Dispatch<boolean>
@@ -23,7 +23,7 @@ const Register: React.FC<props> = ({ setIsAuthenticated }) => {
 
     return (
         <>
-            <Button variant="contained" color="info" onClick={() => handleSubmit()}>
+            <Button onClick={() => handleSubmit()}>
                 Register
             </Button>
         </>

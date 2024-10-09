@@ -1,4 +1,4 @@
-import Button from '@mui/material/Button';
+import { Button } from '../ui/button'
 import React from 'react'
 
 interface props {
@@ -30,7 +30,7 @@ const Login: React.FC<props> = ({ setIsAuthenticated }) => {
 
     return (
         <>
-            <Button variant="contained" color="info" onClick={() => handleSubmit()}>
+            <Button onClick={() => handleSubmit()}>
                 Login
             </Button>
         </>

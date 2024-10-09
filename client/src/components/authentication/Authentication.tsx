@@ -9,15 +9,15 @@ interface props {
 
 const Authentication: React.FC<props> = ({ setIsAuthenticated }) => {
 
-    const [authMode, setAuthMode] = useState(AuthModeTypes.LOGIN)
-    
+    const [authMode, setAuthMode] = useState(AuthModeTypes.REGISTER)
+
     return (
-        <>
+        <div className='flex justify-center'>
             {authMode === AuthModeTypes.LOGIN ? <Login setAuthMode={setAuthMode}
                 setIsAuthenticated={setIsAuthenticated} />
                 : <Register setIsAuthenticated={setIsAuthenticated} setAuthMode={setAuthMode}></Register>}
 
-        </>
+        </div>
     )
 }
 

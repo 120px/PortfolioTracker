@@ -1,4 +1,4 @@
-import { Button, TextField } from '@mui/material'
+import { Button } from '../ui/button'
 import React from 'react'
 import LoginBtn from './LoginBtn'
 import AuthProps from "../../interfaces/AuthProps"
@@ -11,6 +11,7 @@ const Login: React.FC<AuthProps> = ({ setAuthMode, setIsAuthenticated }) => {
             <Button onClick={() => setAuthMode(AuthModeTypes.REGISTER)}>
                 Register
             </Button>
+
         </>
     )
 }

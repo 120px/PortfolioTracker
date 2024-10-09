@@ -1,4 +1,4 @@
-import Button from '@mui/material/Button'
+import { Button } from "./ui/button"
 
 const LogoutBtn = () => {
 
@@ -9,7 +9,7 @@ const LogoutBtn = () => {
 
     return (
         <>
-            <Button variant="contained" color="info" onClick={() => handleSubmit()}>
+            <Button onClick={() => handleSubmit()}>
                 Log out
             </Button>
         </>
