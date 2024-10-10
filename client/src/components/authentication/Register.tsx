@@ -44,7 +44,7 @@ const Register: React.FC<AuthProps> = ({ setIsAuthenticated, setAuthMode }) => {
 
       </form>
 
-      <div className='py-10 text-center'>
+      <div className='pt-10 text-center'>
         <p className='pb-3'>Already have an account?</p>
         <Button onClick={() => setAuthMode(AuthModeTypes.LOGIN)}>
           Login

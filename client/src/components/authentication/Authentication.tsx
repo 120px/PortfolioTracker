@@ -20,7 +20,7 @@ const Authentication: React.FC<props> = ({ setIsAuthenticated }) => {
                 <h1 className='text-center text-4xl font-bold'>Prysm</h1>
             </div>
 
-            <div className='flex justify-center max-h-max pt-4'>
+            <div className='flex justify-center min-h-max pt-4'>
                 <div className='w-72 border-2 border-gray-800 rounded-md p-8'>
                     {authMode === AuthModeTypes.LOGIN ? (
                         <Login setAuthMode={setAuthMode} setIsAuthenticated={setIsAuthenticated} />
