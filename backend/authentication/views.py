@@ -4,7 +4,6 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializer import UserSerializer
-import io
 
 @api_view(["POST"])
 def register_user(request):
@@ -37,5 +36,5 @@ def login_user(request):
 @api_view(["POST"])
 def logout_user(request):
     return Response({
-        
+
     })

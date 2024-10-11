@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import Authentication from './components/authentication/Authentication'
 import LogoutBtn from './components/LogoutBtn'
+import Dashboard from './components/dashboard/Dashboard'
 
 
 // Styling: https://mui.com/material-ui/
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(true)
 
   useEffect(() => {
 
@@ -19,7 +20,7 @@ function App() {
 
   return (
     <>
-      {isAuthenticated == true ? <LogoutBtn/> : <Authentication setIsAuthenticated={setIsAuthenticated} />}
+      {isAuthenticated == true ? <Dashboard/> : <Authentication setIsAuthenticated={setIsAuthenticated} />}
 
     </>
   )
