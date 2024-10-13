@@ -1,10 +1,15 @@
 import React from 'react'
 import Main from './Main'
+import { ITransaction } from '@/interfaces/ITransaction'
 
-const Dashboard = () => {
+interface props {
+  userData: ITransaction
+}
+
+const Dashboard: React.FC<props> = ({userData}) => {
   return (
     <>
-        <Main></Main>
+        <Main userData={userData}></Main>
     </>
   )
 }

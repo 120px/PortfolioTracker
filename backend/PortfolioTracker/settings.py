@@ -9,12 +9,11 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -60,8 +59,18 @@ ROOT_URLCONF = 'PortfolioTracker.urls'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),  # Extend access token lifetime (default: 5 minutes)
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),  # Extend refresh token lifetime (default: 1 day)
+    'ROTATE_REFRESH_TOKENS': True,  # Optional: Rotate refresh tokens on each request
+    'BLACKLIST_AFTER_ROTATION': True,  # Optional: Blacklist old refresh tokens after rotation
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,  # Ensure your signing key is set correctly
 }
 
 TEMPLATES = [
@@ -81,6 +90,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'PortfolioTracker.wsgi.application'
+
 
 
 # Database

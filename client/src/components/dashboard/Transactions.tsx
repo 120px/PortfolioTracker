@@ -1,10 +1,17 @@
 import React from 'react'
+import { Button } from '../ui/button'
+import TransactionHistory from './TransactionHistory'
+import { ITransaction } from '@/interfaces/ITransaction'
 
-const Transactions = () => {
+interface props{
+  userData: ITransaction[]
+}
+
+const Transactions:React.FC<props> = ({userData}) => {
   return (
-    <div>
-        
-    </div>
+    <>
+        <TransactionHistory userData={userData}></TransactionHistory>
+    </>
   )
 }
 

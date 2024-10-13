@@ -1,23 +1,24 @@
 import React from 'react'
-import { Table, TableBody, TableCell, TableHeader, TableRow } from '../ui/table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
 
 const Holdings = () => {
     return (
-        <div>
-            asd
-            <Table>
-                <TableHeader>
-                    Table Header
-                </TableHeader>
-                <TableBody>
-                    <TableRow>
-                        T r 1
-                    </TableRow>
-                    <TableRow>
-                    </TableRow>
-                </TableBody>
-            </Table>
-        </div>
+        <Table>
+            <TableHeader>
+                <TableRow>
+                    <TableHead className="">Name</TableHead>
+                    <TableHead>Average Price</TableHead>
+                    <TableHead>P&L</TableHead>
+                    <TableHead className="text-right">Num. of Shares</TableHead>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                <TableRow>
+                </TableRow>
+                <TableRow>
+                </TableRow>
+            </TableBody>
+        </Table>
     )
 }
 

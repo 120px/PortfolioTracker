@@ -13,8 +13,8 @@ const Login: React.FC<AuthProps> = ({ setAuthMode, setIsAuthenticated }) => {
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         axios.post("http://127.0.0.1:8000/authentication/login/", data)
             .then(response => {
-                console.log("Logged in")
-                localStorage.setItem("access_token", data.access)
+                localStorage.setItem("access_token", response.data.access)
+                console.log("token: " + localStorage.getItem("access_token"))
                 setIsAuthenticated(true)
 
             })
