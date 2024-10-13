@@ -88,7 +88,9 @@ const CreateTransactionModal = () => {
 
                             <div className='flex flex-row items-baseline gap-4'>
                                 <div className='flex flex-col w-full'>
-                                    <Input {...register("transactionStockName")} type='text' placeholder='Stock Name' className='my-2' />
+                                    <Input {...register("transactionStockName")} type='text' placeholder='Stock Name'
+                                        className='my-2' value={tickerFullName}
+                                        onChange={(e) => setTickerFullName(e.target.value)} />
                                 </div>
                                 <Button type='button' onClick={() => {
                                     const ticker = getValues("transactionStockName");

@@ -18,10 +18,11 @@ def register_transaction(request):
         transaction_price = request.data.get("transactionPrice")
         transaction_num_of_shares = request.data.get("transactionNumOfShares")
         transaction_cost = request.data.get("transactionCost")
+        transaction_stock_name = request.data("transactionStockName")
 
         transaction = Transaction(user=user, type=transaction_type, date=transaction_date,
                                   price=transaction_price, num_of_shares=transaction_num_of_shares,
-                                  cost=transaction_cost)
+                                  cost=transaction_cost, stock_name=transaction_stock_name)
         transaction.save()
         print(transaction)
 
