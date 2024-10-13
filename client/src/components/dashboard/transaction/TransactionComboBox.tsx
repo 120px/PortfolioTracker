@@ -17,7 +17,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-import { TransactionType } from "../../enums/TransactionTypesEnum"
+import { TransactionType } from "../../../enums/TransactionTypesEnum"
 
 const transactionTypeValues = Object.values(TransactionType)
 

@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { Button } from '../ui/button'
 import TransactionHistory from './TransactionHistory'
 import { ITransaction } from '@/interfaces/ITransaction'
 

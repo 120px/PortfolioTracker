@@ -8,12 +8,8 @@ import { Button } from './components/ui/button'
 import { ITransaction } from './interfaces/ITransaction'
 import { useUserData } from './components/context/SetUserDataContext'
 
-
-// Styling: https://mui.com/material-ui/
-
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  // const [userData, setUserData] = useState<ITransaction[]>()
   const { userData, setUserData } = useUserData();
 
   useEffect(() => {
@@ -33,7 +29,6 @@ function App() {
         Authorization: `Bearer ${access_token}`
       }
     }).then(response => {
-      console.log(response.data)
       setUserData(response.data)
     })
   }
@@ -41,7 +36,6 @@ function App() {
   return (
     <>
       {isAuthenticated == true ? <Dashboard userData={userData}/> : <Authentication setIsAuthenticated={setIsAuthenticated} />}
-      <Button onClick={getUserData}></Button>
     </>
   )
 }

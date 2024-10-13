@@ -6,23 +6,25 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "../ui/dialog"
+} from "../../ui/dialog"
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
-import { Input } from '../ui/input'
+import { Input } from '../../ui/input'
 import TransactionComboBox from './TransactionComboBox'
 import axios from 'axios'
-import { Button } from '../ui/button'
-import { useUserData } from "../context/SetUserDataContext"
+import { Button } from '../../ui/button'
+import { useUserData } from "../../context/SetUserDataContext"
+import StockSearchInput from './StockSearchInput'
 
 
 const CreateTransactionModal = () => {
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, getValues } = useForm()
     const { userData, setUserData } = useUserData();
     const [transactionType, setTransactionType] = useState<string>("")
 
-    const [transactionPrice, setTransactionPrice] = useState<number | undefined>(undefined);
-    const [transactionNumOfShares, setTransactionNumOfShares] = useState<number | undefined>(undefined);
-    const [transactionCost, setTransactionCost] = useState<number | undefined>(undefined);
+    const [transactionPrice, setTransactionPrice] = useState<number | undefined>(undefined)
+    const [transactionNumOfShares, setTransactionNumOfShares] = useState<number | undefined>(undefined)
+    const [transactionCost, setTransactionCost] = useState<number | undefined>(undefined)
+    const [tickerFullName, setTickerFullName] = useState<string>("")
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         if (localStorage.getItem("access_token") !== null && localStorage.getItem("access_token") !== undefined) {
@@ -31,7 +33,8 @@ const CreateTransactionModal = () => {
             axios.post("http://127.0.0.1:8000/transactions/register_transaction/", data, {
                 headers: {
                     Authorization: `Bearer ${access_token}`
-                }
+                },
+
             })
                 .then(response => {
                     console.log(response.data.transactions)
@@ -47,7 +50,6 @@ const CreateTransactionModal = () => {
         calculateCost(price, transactionNumOfShares)
     };
 
-    // Handle number of shares change
     const handleSharesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const shares = parseFloat(e.target.value)
         setTransactionNumOfShares(shares)
@@ -60,6 +62,20 @@ const CreateTransactionModal = () => {
         }
     };
 
+    const validateTicker = (ticker: string) => {
+        console.log("validating")
+        setTickerFullName("")
+        axios.get("http://127.0.0.1:8000/yfinanceapi/search_stock/", {
+            params: { userInput: ticker }
+        })
+            .then(response => {
+                if (response.data) {
+                    console.log(response.data)
+                    setTickerFullName(response.data)
+                }
+            })
+    }
+
     return (
         <Dialog>
             <DialogTrigger className=''>Add</DialogTrigger>
@@ -70,7 +86,16 @@ const CreateTransactionModal = () => {
                         <form className='flex flex-col text-center' onSubmit={handleSubmit(onSubmit)}>
                             <TransactionComboBox setTransactionType={setTransactionType} transactionType={transactionType}></TransactionComboBox>
 
-                            <Input {...register("transactionStockName")} type='text' placeholder='Stock Name' className='my-2' />
+                            <div className='flex flex-row items-baseline gap-4'>
+                                <div className='flex flex-col w-full'>
+                                    <Input {...register("transactionStockName")} type='text' placeholder='Stock Name' className='my-2' />
+                                </div>
+                                <Button type='button' onClick={() => {
+                                    const ticker = getValues("transactionStockName");
+                                    validateTicker(ticker);
+                                }}>Search</Button>
+                            </div>
+
                             <Input {...register("transactionDate")} type='date' placeholder='Date' className='my-2' />
 
                             <div className='flex flex-row gap-3'>

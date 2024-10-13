@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../ui/table'
 import { ITransaction } from '@/interfaces/ITransaction'
 
 interface props {
