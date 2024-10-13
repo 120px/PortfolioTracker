@@ -3,5 +3,6 @@ export interface ITransaction {
     name: string,
     date: Date,
     average_price: number,
+    num_of_shares: number,
     cost: number
 }

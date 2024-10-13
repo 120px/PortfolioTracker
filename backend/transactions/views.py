@@ -16,12 +16,24 @@ def register_transaction(request):
         transaction_type = request.data.get("transactionType")
         transaction_date = request.data.get("transactionDate")
         transaction_price = request.data.get("transactionPrice")
+        transaction_num_of_shares = request.data.get("transactionNumOfShares")
+        transaction_cost = request.data.get("transactionCost")
 
-        transaction = Transaction(user=user, type=transaction_type, date=transaction_date, price=transaction_price)
+        transaction = Transaction(user=user, type=transaction_type, date=transaction_date,
+                                  price=transaction_price, num_of_shares=transaction_num_of_shares,
+                                  cost=transaction_cost)
         transaction.save()
+        print(transaction)
 
-        print(f"User {user.username} is making a transaction.")
-        return Response({"detail": "Transaction registered successfully"}, status=201)
+        user_transactions = Transaction.objects.filter(user=user)
+        serializer = TransactionSerializer(user_transactions, many=True)
+        return Response(
+            {
+                "detail": "Transaction registered successfully",
+                "transactions": serializer.data,
+            },
+            status=status.HTTP_201_CREATED,
+        )
     except Exception as e:
         print(f"Error registering transaction: {str(e)}")
         return Response({"detail": "An error occurred while registering the transaction."},
@@ -35,6 +47,7 @@ def get_all_user_transactions(request):
         user = request.user
         transactions = Transaction.objects.filter(user=user)
         serializer = TransactionSerializer(transactions, many=True)
+        print(serializer.data)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Exception as e:

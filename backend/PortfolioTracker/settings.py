@@ -99,7 +99,7 @@ WSGI_APPLICATION = 'PortfolioTracker.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "PythonPortfolioTracker",
+        "NAME": "Prysm",
         "USER": "admin",
         "PASSWORD": "admin",
         "HOST": "localhost",

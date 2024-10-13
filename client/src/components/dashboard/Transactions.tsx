@@ -1,16 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button } from '../ui/button'
 import TransactionHistory from './TransactionHistory'
 import { ITransaction } from '@/interfaces/ITransaction'
 
-interface props{
+interface props {
   userData: ITransaction[]
 }
 
-const Transactions:React.FC<props> = ({userData}) => {
+const Transactions: React.FC<props> = ({ userData }) => {
+
+  useEffect(() => {
+
+    return () => {
+
+    }
+  }, [userData])
+
   return (
     <>
-        <TransactionHistory userData={userData}></TransactionHistory>
+      <TransactionHistory userData={userData}></TransactionHistory>
     </>
   )
 }

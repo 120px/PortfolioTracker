@@ -6,13 +6,15 @@ import Dashboard from './components/dashboard/Dashboard'
 import axios from 'axios'
 import { Button } from './components/ui/button'
 import { ITransaction } from './interfaces/ITransaction'
+import { useUserData } from './components/context/SetUserDataContext'
 
 
 // Styling: https://mui.com/material-ui/
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [userData, setUserData] = useState<ITransaction[]>()
+  // const [userData, setUserData] = useState<ITransaction[]>()
+  const { userData, setUserData } = useUserData();
 
   useEffect(() => {
     console.log(isAuthenticated)

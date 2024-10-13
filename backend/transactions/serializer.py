@@ -6,5 +6,5 @@ class TransactionSerializer(serializers.ModelSerializer):
     print("Transaction Serializer")
     class Meta:
         model = Transaction
-        fields = ['id', 'user', 'type', 'date', 'price']  # Add any other fields you want to include
+        fields = ['id', 'user', 'type', 'date', 'price', 'num_of_shares', 'cost']
 

@@ -9,6 +9,8 @@ class Transaction(models.Model):
     ticker = models.CharField()
     date = models.DateField()
     price = models.IntegerField()
+    num_of_shares = models.IntegerField(default=0)
+    cost = models.IntegerField(default=0)
 
 
 
