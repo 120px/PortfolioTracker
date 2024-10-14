@@ -24,7 +24,7 @@ const CreateTransactionModal = () => {
     const [transactionPrice, setTransactionPrice] = useState<number | undefined>(undefined)
     const [transactionNumOfShares, setTransactionNumOfShares] = useState<number | undefined>(undefined)
     const [transactionCost, setTransactionCost] = useState<number | undefined>(undefined)
-    const [tickerFullName, setTickerFullName] = useState<string>("")
+    const [fetchedTransactionStockName, setFetchedTransactionStockName] = useState<string>("")
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         if (localStorage.getItem("access_token") !== null && localStorage.getItem("access_token") !== undefined) {
@@ -64,14 +64,14 @@ const CreateTransactionModal = () => {
 
     const validateTicker = (ticker: string) => {
         console.log("validating")
-        setTickerFullName("")
+        setFetchedTransactionStockName("")
         axios.get("http://127.0.0.1:8000/yfinanceapi/search_stock/", {
             params: { userInput: ticker }
         })
             .then(response => {
                 if (response.data) {
                     console.log(response.data)
-                    setTickerFullName(response.data)
+                    setFetchedTransactionStockName(response.data)
                 }
             })
     }
@@ -89,8 +89,8 @@ const CreateTransactionModal = () => {
                             <div className='flex flex-row items-baseline gap-4'>
                                 <div className='flex flex-col w-full'>
                                     <Input {...register("transactionStockName")} type='text' placeholder='Stock Name'
-                                        className='my-2' value={tickerFullName}
-                                        onChange={(e) => setTickerFullName(e.target.value)} />
+                                        className='my-2' value={fetchedTransactionStockName}
+                                        onChange={(e) => setFetchedTransactionStockName(e.target.value)} />
                                 </div>
                                 <Button type='button' onClick={() => {
                                     const ticker = getValues("transactionStockName");

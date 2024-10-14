@@ -18,7 +18,7 @@ def register_transaction(request):
         transaction_price = request.data.get("transactionPrice")
         transaction_num_of_shares = request.data.get("transactionNumOfShares")
         transaction_cost = request.data.get("transactionCost")
-        transaction_stock_name = request.data("transactionStockName")
+        transaction_stock_name = request.data.get("transactionStockName")
 
         transaction = Transaction(user=user, type=transaction_type, date=transaction_date,
                                   price=transaction_price, num_of_shares=transaction_num_of_shares,
@@ -40,6 +40,20 @@ def register_transaction(request):
         return Response({"detail": "An error occurred while registering the transaction."},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_all_user_transactions(request):
+    try:
+        user = request.user
+        transactions = Transaction.objects.filter(user=user)
+        serializer = TransactionSerializer(transactions, many=True)
+        print(serializer.data)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])

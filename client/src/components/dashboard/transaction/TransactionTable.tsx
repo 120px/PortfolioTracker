@@ -16,8 +16,7 @@ const TransactionTable: React.FC<props> = ({ userData }) => {
                 userData.map((data, index) => (
                     <TableRow key={index}>
                         <TableCell className="text-center">{data.type}</TableCell>
-                        <TableCell className="text-center">{data.name}</TableCell>
-                        <TableCell className="text-center">$ {data.average_price}</TableCell>
+                        <TableCell className="text-center">{data.stock_name.toLocaleUpperCase()}</TableCell>
                         <TableCell className="text-center">{data.num_of_shares}</TableCell>
                         <TableCell className="text-center">$ {data.cost}</TableCell>
                     </TableRow>
@@ -33,7 +32,6 @@ const TransactionTable: React.FC<props> = ({ userData }) => {
                 <TableRow className=''>
                     <TableHead className="text-center">Type</TableHead>
                     <TableHead className="text-center">Name</TableHead>
-                    <TableHead className="text-center">Average Price</TableHead>
                     <TableHead className="text-center">Num. of Shares</TableHead>
                     <TableHead className="text-center">Cost</TableHead>
                 </TableRow>

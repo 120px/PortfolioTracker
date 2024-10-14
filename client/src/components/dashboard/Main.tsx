@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import ChartArea from './ChartArea'
-import Holdings from "./Holdings"
+import Holdings from "./holdings/Holdings"
 import PortfolioDetails from './PortfolioDetails'
 import { ITransaction } from '@/interfaces/ITransaction'
 

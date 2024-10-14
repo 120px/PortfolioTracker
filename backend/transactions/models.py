@@ -12,6 +12,9 @@ class Transaction(models.Model):
     num_of_shares = models.IntegerField(default=0)
     cost = models.IntegerField(default=0)
 
-
-
-
+class Holdings(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    stock_name = models.CharField()
+    ticker = models.CharField()
+    average_price = models.IntegerField()
+    num_of_shares = models.IntegerField(default=0)
