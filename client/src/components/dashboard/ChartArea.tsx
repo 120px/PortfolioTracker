@@ -27,7 +27,6 @@ const ChartArea = () => {
         <ChartContainer config={chartConfig} className="mx-auto min-h-[200px] w-3/4">
             <LineChart accessibilityLayer data={chartData}>
                 <Line dataKey="desktop" fill="var(--color-desktop)" radius={4} />
-                <Line dataKey="mobile" fill="var(--color-mobile)" radius={4} />
             </LineChart>
         </ChartContainer>
     )
