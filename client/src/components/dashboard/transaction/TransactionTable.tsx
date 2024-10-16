@@ -7,7 +7,7 @@ interface props {
 }
 
 const TransactionTable: React.FC<props> = ({ userData }) => {
-    const [transactionData, setTransactionData] = useState()
+    console.log("DATA: " + userData)
 
     const displayData = () => {
         if (userData !== undefined) {

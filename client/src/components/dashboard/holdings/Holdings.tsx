@@ -1,22 +1,42 @@
 import React from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../ui/table'
+import IHolding from '@/interfaces/IHolding'
 
-const Holdings = () => {
+interface props {
+    userData: IHolding[]
+}
+
+const Holdings: React.FC<props> = ({userData}) => {
+
+    const displayData = (data: IHolding) => {
+        if (userData !== undefined) {
+            console.log(userData)
+            return (
+                userData.map((data, index) => (
+                    <TableRow className='text-center' key={index}>
+                        <TableCell className="text-center">{data.ticker.toLocaleUpperCase()}</TableCell>
+                        <TableCell className="text-center">{data.average_price}</TableCell>
+                        <TableCell className="text-center">{data.num_of_shares}</TableCell>
+                        <TableCell className="text-center">$ 23</TableCell>
+                    </TableRow>
+                ))
+            )
+        }
+
+    }
+
     return (
         <Table>
             <TableHeader>
                 <TableRow>
-                    <TableHead className="">Name</TableHead>
-                    <TableHead>Average Price</TableHead>
-                    <TableHead >Num. of Shares</TableHead>
-                    <TableHead className="text-right">P&L</TableHead>
+                    <TableHead className="text-center">Name</TableHead>
+                    <TableHead className="text-center">Average Price</TableHead>
+                    <TableHead className="text-center">Num. of Shares</TableHead>
+                    <TableHead className="text-center">P&L</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
-                <TableRow>
-                </TableRow>
-                <TableRow>
-                </TableRow>
+                {displayData(userData)}
             </TableBody>
         </Table>
     )

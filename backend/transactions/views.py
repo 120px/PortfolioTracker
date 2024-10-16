@@ -35,6 +35,20 @@ def register_transaction(request):
             holding.average_price = average_price
             holding.total_cost = total_cost
             holding.save()
+        elif transaction_type.lower() == "sell":
+            total_shares = holding.num_of_shares - int(transaction_num_of_shares)
+
+            if total_shares < 0:
+                print("negative value")
+
+            total_cost = holding.total_cost / int(transaction_num_of_shares)
+            holding.num_of_shares = total_shares
+            print(holding.average_price)
+            # HOW DO YOU CALCULATE THE AVERGAGE PRICE ON SELL?
+            average_price = (holding.average_price - transaction_cost) / holding.num_of_shares
+            holding.average_price = average_price
+            holding.total_cost = total_cost
+            holding.save()
 
         # transaction.save()
         # print(transaction)
@@ -68,10 +82,28 @@ def get_all_user_transactions(request):
         print(e)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_all_user_data(request):
+    user = request.user
+    transactions = Transaction.objects.filter(user=user)
+    holdings = Holdings.objects.filter(user=user)
+
+    transactions_serializer = TransactionSerializer(transactions, many=True)
+    holdings_serializer = HoldingsSerializer(holdings, many=True)
+
+    print(transactions_serializer.data)
+    print(holdings_serializer.data)
+
+    return Response({
+        "user_transactions": transactions_serializer.data,
+        "user_holdings": holdings_serializer.data
+    })
+
 #Holdings
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
-def modify_holdings(request):
+def get_all_user_holdings(request):
     try:
         user = request.user
         holdings = Holdings.objects.filter(user=user)
@@ -83,12 +115,4 @@ def modify_holdings(request):
         print(e)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(["GET"])
-@permission_classes([IsAuthenticated])
-def get_all_user_holdings(request):
-    try:
-        user = request.user
-
-    except Exception as e:
-        print("Error in getting user holdings: " + e)
 

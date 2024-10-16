@@ -1,18 +1,15 @@
+import IUserData from '@/interfaces/IUserData';
 import React, { createContext, useContext, useState } from 'react';
 
-interface ITransaction {
-    // Define your transaction structure here
-}
-
 interface UserDataContextType {
-    userData: ITransaction[] | undefined;
-    setUserData: React.Dispatch<React.SetStateAction<ITransaction[] | undefined>>;
+    userData: IUserData[] | undefined;
+    setUserData: React.Dispatch<React.SetStateAction<IUserData[] | undefined>>;
 }
 
 const UserDataContext = createContext<UserDataContextType | undefined>(undefined);
 
 export const UserDataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [userData, setUserData] = useState<ITransaction[]>();
+    const [userData, setUserData] = useState<IUserData[]>();
 
     return (
         <UserDataContext.Provider value={{ userData, setUserData }}>

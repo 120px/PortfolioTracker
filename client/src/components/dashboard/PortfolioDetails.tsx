@@ -3,14 +3,15 @@ import React, { useState } from 'react'
 import Holdings from './holdings/Holdings'
 import Transactions from './transaction/Transactions'
 import PortfolioTypeBtn from './PortfolioTypeBtn'
-import { ITransaction } from '@/interfaces/ITransaction'
+import IUserData from '@/interfaces/IUserData'
 
 interface props {
-    userData: ITransaction[]
+    userData: IUserData
 }
 
 const PortfolioDetails: React.FC<props> = ({userData}) => {
     const [portfolioActivityType, setPortfolioActivityType] = useState<PortfolioActivityEnum>(PortfolioActivityEnum.HOLDINGS)
+    console.log(userData)
 
     const createPortfolioTypeButtons = () => {
         return (Object.keys(PortfolioActivityEnum) as Array<keyof typeof PortfolioActivityEnum>).map((key, index) => (
@@ -23,8 +24,9 @@ const PortfolioDetails: React.FC<props> = ({userData}) => {
             <div className='flex flex-row justify-between px-10 pb-4'>
                 {createPortfolioTypeButtons()}
             </div>
-            {portfolioActivityType == PortfolioActivityEnum.HOLDINGS ? <Holdings></Holdings>
-                : <Transactions userData={userData}></Transactions>}
+            {portfolioActivityType == PortfolioActivityEnum.HOLDINGS && userData !== undefined ? 
+            <Holdings userData={userData.user_holdings}></Holdings>
+                : <Transactions userData={userData.user_transactions}></Transactions>}
 
         </>
     )
