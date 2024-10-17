@@ -1,10 +1,11 @@
-from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import Transaction, Holdings
 from .serializer import TransactionSerializer, HoldingsSerializer
+from authentication.models import CustomUser
+from authentication.serializer import UserSerializer
 
 
 @api_view(["POST"])
@@ -32,9 +33,16 @@ def register_transaction(request):
             holding.num_of_shares = total_shares
             print(holding.average_price)
             average_price = (holding.average_price + transaction_cost) / holding.num_of_shares
+
+            # Edit the user's holding of the current stock
             holding.average_price = average_price
             holding.total_cost = total_cost
             holding.save()
+
+            # Edit contribution
+            user.total_contribution += transaction_cost
+            user.save()
+
         elif transaction_type.lower() == "sell":
             total_shares = holding.num_of_shares - int(transaction_num_of_shares)
 
@@ -50,16 +58,19 @@ def register_transaction(request):
             holding.total_cost = total_cost
             holding.save()
 
-        # transaction.save()
-        # print(transaction)
-        #
-        # user_transactions = Transaction.objects.filter(user=user)
-        # serializer = TransactionSerializer(user_transactions, many=True)
-        return Response(
-            {
-                "detail": "Transaction registered successfully",
-                # "transactions": serializer.data,
-            },
+        transaction.save()
+        user_transactions = Transaction.objects.filter(user=user)
+        user_holdings = Holdings.objects.filter(user=user)
+        # user_general_information = CustomUser.objects.filter(user=user)
+
+        transactions_serializer = TransactionSerializer(user_transactions, many=True)
+        holdings_serializer = HoldingsSerializer(user_holdings, many=True)
+        # user_serializer = UserSerializer(user_general_information, many=True)
+        return Response({
+            "user_transactions": transactions_serializer.data,
+            "user_holdings": holdings_serializer.data,
+            # "user_general_information": user_serializer.data
+        },
             status=status.HTTP_201_CREATED,
         )
     except Exception as e:
@@ -97,7 +108,7 @@ def get_all_user_data(request):
 
     return Response({
         "user_transactions": transactions_serializer.data,
-        "user_holdings": holdings_serializer.data
+        "user_holdings": holdings_serializer.data,
     })
 
 #Holdings

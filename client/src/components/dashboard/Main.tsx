@@ -10,6 +10,9 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Label } from 'recharts'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
+import PortfolioCards from './PortfolioCards'
+import Holdings from './holdings/Holdings'
+import Transactions from './transaction/Transactions'
 
 interface props {
     userData: IUserData
@@ -25,35 +28,44 @@ const Main: React.FC<props> = ({ userData }) => {
         ));
     };
 
-    return (
-        <div className='m-5'>
-            <div className='flex flex-col'>
-                <Header></Header>
-                <Tabs defaultValue="account" className="w-[100%] mx-4">
-                    <TabsList>
-                        <TabsTrigger value="overview">Overview</TabsTrigger>
-                        <TabsTrigger value="holdings">Holdings</TabsTrigger>
-                    </TabsList>
-                    <TabsContent value="overview">
-                        <CardHeader>
-                            <CardTitle>Overview</CardTitle>
-                        </CardHeader>
-                        <CardContent className="flex flex-row gap-5">
-                            <Card className='w-3/4'>
-                                <ChartArea></ChartArea>
-                            </Card>
-                            <Card className='w-1/2'>
-                                <PortfolioDetails portfolioActivityType={portfolioActivityType} userData={userData}></PortfolioDetails>
-                            </Card>
-                        </CardContent>
-                    </TabsContent>
-                    <TabsContent value="holdings">
-                        <Card>
+    const handleHoldingsClick = () => {
 
+    }
+
+    return (
+        <div className='flex flex-col px-8'>
+            {/* <Header></Header> */}
+            <Tabs defaultValue="account" className="w-[100%]">
+                <TabsList>
+                    <TabsTrigger value="overview">Overview</TabsTrigger>
+                    <TabsTrigger value="holdings" onClick={handleHoldingsClick()}>Holdings</TabsTrigger>
+                    <TabsTrigger value="transactions">Transactions</TabsTrigger>
+                </TabsList>
+                <TabsContent value="overview">
+                    <PortfolioCards></PortfolioCards>
+                    <CardHeader>
+                        <CardTitle>Overview</CardTitle>
+                    </CardHeader>
+                    <CardContent className="flex flex-row gap-5">
+                        <Card className='w-3/4'>
+                            <ChartArea></ChartArea>
                         </Card>
-                    </TabsContent>
-                </Tabs>
-            </div>
+                        <Card className='w-1/2'>
+                            <Holdings userData={userData.user_holdings}></Holdings>
+                        </Card>
+                    </CardContent>
+                </TabsContent>
+                <TabsContent value="holdings">
+                    <Card className='w-full'>
+                        <Holdings userData={userData.user_holdings}></Holdings>
+                    </Card>
+                </TabsContent>
+                <TabsContent value="transactions">
+                    <Card className='w-full'>
+                        <Transactions userData={userData !== undefined ? userData.user_transactions : null}></Transactions>
+                    </Card>
+                </TabsContent>
+            </Tabs>
         </div>
     )
 }

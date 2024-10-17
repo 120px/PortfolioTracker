@@ -1,17 +1,22 @@
-from django.contrib.auth.models import User
+from .models import CustomUser
 from rest_framework import serializers
 
 class UserSerializer(serializers.ModelSerializer):
-    print("UserSerializer")
+    total_contribution = serializers.SerializerMethodField()
     class Meta:
-        model = User
-        fields = ["username", "password"]
+        model = CustomUser
+        fields = ["username", "password", "total_contribution"]
 
     def create(self, validated_data):
-        user = User(
+        user = CustomUser(
             username=validated_data["username"],
         )
         user.set_password(validated_data["password"])
         user.save()
         return user
+
+    def get(self):
+        return
+    def get_total_contribution(self, obj):
+        return 100
 

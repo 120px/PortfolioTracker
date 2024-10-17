@@ -7,13 +7,7 @@ interface props {
 }
 
 const Transactions: React.FC<props> = ({ userData }) => {
-
-  useEffect(() => {
-
-    return () => {
-
-    }
-  }, [userData])
+  console.log(userData)
 
   return (
     <>

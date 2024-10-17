@@ -1,8 +1,9 @@
 from django.contrib.auth.models import User
 from django.db import models
+from authentication.models import CustomUser
 
 class Transaction(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     type = models.CharField()
     exchange = models.CharField()
     stock_name = models.CharField()
@@ -13,7 +14,7 @@ class Transaction(models.Model):
     cost = models.IntegerField(default=0)
 
 class Holdings(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     stock_name = models.CharField()
     ticker = models.CharField()
     average_price = models.IntegerField(default=0)

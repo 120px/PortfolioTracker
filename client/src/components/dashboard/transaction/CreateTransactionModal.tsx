@@ -13,8 +13,6 @@ import TransactionComboBox from './TransactionComboBox'
 import axios from 'axios'
 import { Button } from '../../ui/button'
 import { useUserData } from "../../context/SetUserDataContext"
-import StockSearchInput from './StockSearchInput'
-
 
 const CreateTransactionModal = () => {
     const { register, handleSubmit, getValues } = useForm()
@@ -37,8 +35,8 @@ const CreateTransactionModal = () => {
 
             })
                 .then(response => {
-                    console.log(response.data.transactions)
-                    setUserData(response.data.transactions)
+                    console.log(response.data)
+                    setUserData(response.data)
                 })
         }
 
