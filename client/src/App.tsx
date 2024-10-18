@@ -10,7 +10,6 @@ function App() {
   const { userData, setUserData } = useUserData();
 
   useEffect(() => {
-    console.log(isAuthenticated)
     if (isAuthenticated && localStorage.getItem("access_token") !== null) {
       getUserData()
     }

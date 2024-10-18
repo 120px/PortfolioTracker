@@ -7,11 +7,9 @@ interface props {
 }
 
 const TransactionTable: React.FC<props> = ({ userData }) => {
-    console.log("DATA: " + userData)
 
     const displayData = () => {
         if (userData !== undefined) {
-            console.log(userData)
             return (
                 userData.map((data, index) => (
                     <TableRow key={index}>

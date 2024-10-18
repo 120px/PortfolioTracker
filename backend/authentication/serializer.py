@@ -17,6 +17,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     def get(self):
         return
-    def get_total_contribution(self, obj):
-        return 100
+    def get_contribution_information(self, obj):
+        return {
+            "total_contribution": obj.total_contribution
+        }
 

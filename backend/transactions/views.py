@@ -61,15 +61,15 @@ def register_transaction(request):
         transaction.save()
         user_transactions = Transaction.objects.filter(user=user)
         user_holdings = Holdings.objects.filter(user=user)
-        # user_general_information = CustomUser.objects.filter(user=user)
+        user_serializer = UserSerializer(user)
+        user_general_information = user_serializer.get_contribution_information(user)
 
         transactions_serializer = TransactionSerializer(user_transactions, many=True)
         holdings_serializer = HoldingsSerializer(user_holdings, many=True)
-        # user_serializer = UserSerializer(user_general_information, many=True)
         return Response({
             "user_transactions": transactions_serializer.data,
             "user_holdings": holdings_serializer.data,
-            # "user_general_information": user_serializer.data
+            "user_general_information": user_general_information
         },
             status=status.HTTP_201_CREATED,
         )
@@ -86,7 +86,6 @@ def get_all_user_transactions(request):
         user = request.user
         transactions = Transaction.objects.filter(user=user)
         serializer = TransactionSerializer(transactions, many=True)
-        print(serializer.data)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Exception as e:
@@ -102,6 +101,8 @@ def get_all_user_data(request):
 
     transactions_serializer = TransactionSerializer(transactions, many=True)
     holdings_serializer = HoldingsSerializer(holdings, many=True)
+    user_serializer = UserSerializer(user)
+    user_general_information = user_serializer.get_contribution_information(user)
 
     print(transactions_serializer.data)
     print(holdings_serializer.data)
@@ -109,6 +110,7 @@ def get_all_user_data(request):
     return Response({
         "user_transactions": transactions_serializer.data,
         "user_holdings": holdings_serializer.data,
+        "user_general_information": user_general_information
     })
 
 #Holdings

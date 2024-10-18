@@ -14,7 +14,6 @@ const Login: React.FC<AuthProps> = ({ setAuthMode, setIsAuthenticated }) => {
         axios.post("http://127.0.0.1:8000/authentication/login/", data)
             .then(response => {
                 localStorage.setItem("access_token", response.data.access)
-                console.log("token: " + localStorage.getItem("access_token"))
                 setIsAuthenticated(true)
 
             })

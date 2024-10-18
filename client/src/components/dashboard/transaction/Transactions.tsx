@@ -7,7 +7,6 @@ interface props {
 }
 
 const Transactions: React.FC<props> = ({ userData }) => {
-  console.log(userData)
 
   return (
     <>

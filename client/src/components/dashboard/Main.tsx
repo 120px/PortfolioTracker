@@ -20,6 +20,7 @@ interface props {
 
 const Main: React.FC<props> = ({ userData }) => {
     const [portfolioActivityType, setPortfolioActivityType] = useState<PortfolioActivityEnum>(PortfolioActivityEnum.HOLDINGS)
+    console.log(userData)
 
     const createPortfolioTypeButtons = () => {
 
@@ -42,7 +43,7 @@ const Main: React.FC<props> = ({ userData }) => {
                     <TabsTrigger value="transactions">Transactions</TabsTrigger>
                 </TabsList>
                 <TabsContent value="overview">
-                    <PortfolioCards></PortfolioCards>
+                    <PortfolioCards userData={userData.user_general_information}></PortfolioCards>
                     <CardHeader>
                         <CardTitle>Overview</CardTitle>
                     </CardHeader>

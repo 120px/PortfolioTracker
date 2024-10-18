@@ -10,7 +10,6 @@ const Holdings: React.FC<props> = ({userData}) => {
 
     const displayData = (data: IHolding) => {
         if (userData !== undefined) {
-            console.log(userData)
             return (
                 userData.map((data, index) => (
                     <TableRow className='text-center' key={index}>

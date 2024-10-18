@@ -35,7 +35,6 @@ const CreateTransactionModal = () => {
 
             })
                 .then(response => {
-                    console.log(response.data)
                     setUserData(response.data)
                 })
         }
@@ -61,14 +60,12 @@ const CreateTransactionModal = () => {
     };
 
     const validateTicker = (ticker: string) => {
-        console.log("validating")
         setFetchedTransactionStockName("")
         axios.get("http://127.0.0.1:8000/yfinanceapi/search_stock/", {
             params: { userInput: ticker }
         })
             .then(response => {
                 if (response.data) {
-                    console.log(response.data)
                     setFetchedTransactionStockName(response.data)
                 }
             })

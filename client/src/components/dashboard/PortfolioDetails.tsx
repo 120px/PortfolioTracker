@@ -11,7 +11,6 @@ interface props {
 
 const PortfolioDetails: React.FC<props> = ({ userData }) => {
     const [portfolioActivityType, setPortfolioActivityType] = useState<PortfolioActivityEnum>(PortfolioActivityEnum.HOLDINGS)
-    console.log(userData)
 
     const createPortfolioTypeButtons = () => {
         return (Object.keys(PortfolioActivityEnum) as Array<keyof typeof PortfolioActivityEnum>).map((key, index) => (
