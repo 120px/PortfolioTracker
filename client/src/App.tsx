@@ -24,11 +24,10 @@ function App() {
   useEffect(() => {
     const interval = setInterval(() => {
       if (isAuthenticated) {
-        // getTickerInformation(userData)
-        console.log("called")
+        getTickerInformation(userData)
       }
 
-    }, 3000);
+    }, 6000);
 
     return () => {
       clearInterval(interval)
@@ -55,9 +54,7 @@ function App() {
       },
       params: { tickers: tickers }
     }).then(async response => {
-      console.log(response.data)
       setUserHoldingsInformation(response.data)
-
     })
   }
 

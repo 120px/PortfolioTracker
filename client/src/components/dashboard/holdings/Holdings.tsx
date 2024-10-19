@@ -7,8 +7,14 @@ interface props {
     userData: IHolding[]
 }
 
-const Holdings: React.FC<props> = ({userData}) => {
+const Holdings: React.FC<props> = ({ userData }) => {
     const { userHoldingsInformation, setUserHoldingsInformation } = useUserHoldingsInformation()
+    
+
+    const calculateProfitLoss = (tickerInformation: any, average_price: number) => {
+        console.log(tickerInformation)
+        return 13
+    }
 
     const displayData = (data: IHolding) => {
         if (userData !== undefined) {
@@ -18,12 +24,11 @@ const Holdings: React.FC<props> = ({userData}) => {
                         <TableCell className="text-center">{data.ticker.toLocaleUpperCase()}</TableCell>
                         <TableCell className="text-center">{data.average_price}</TableCell>
                         <TableCell className="text-center">{data.num_of_shares}</TableCell>
-                        <TableCell className="text-center">$ 23</TableCell>
+                        <TableCell className="text-center">{calculateProfitLoss(userHoldingsInformation, data.average_price)}%</TableCell>
                     </TableRow>
                 ))
             )
         }
-
     }
 
     return (

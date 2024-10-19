@@ -2,15 +2,15 @@ import IHolding from "@/interfaces/IHolding";
 import React, { createContext, useContext, useState } from 'react';
 
 interface IUserHoldingsInformationContext {
-    userHoldingsInformation: IHolding[] | undefined,
-    setUserHoldingsInformation: React.Dispatch<React.SetStateAction<IHolding[] | undefined>>
+    userHoldingsInformation: any[] | undefined,
+    setUserHoldingsInformation: React.Dispatch<React.SetStateAction<any[] | undefined>>
 
 }
 
 export const UserHoldingsInformationContext = createContext<IUserHoldingsInformationContext | undefined>(undefined)
 
 export const UserHoldingsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [userHoldingsInformation, setUserHoldingsInformation] = useState<IHolding[]>()
+    const [userHoldingsInformation, setUserHoldingsInformation] = useState<any[]>()
 
     return (
         <UserHoldingsInformationContext.Provider value={{ userHoldingsInformation, setUserHoldingsInformation }}>
@@ -22,7 +22,7 @@ export const UserHoldingsProvider: React.FC<{ children: React.ReactNode }> = ({ 
 export const useUserHoldingsInformation = () => {
     const context = useContext(UserHoldingsInformationContext);
     if (!context) {
-        throw new Error("setUserHoldingsInformation");
+        throw new Error("setUserHoldingsInformation")
     }
     return context;
 };
