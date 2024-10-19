@@ -1,12 +1,14 @@
 import React from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../ui/table'
 import IHolding from '@/interfaces/IHolding'
+import { useUserHoldingsInformation } from '@/components/context/SetUserHoldingsInformation'
 
 interface props {
     userData: IHolding[]
 }
 
 const Holdings: React.FC<props> = ({userData}) => {
+    const { userHoldingsInformation, setUserHoldingsInformation } = useUserHoldingsInformation()
 
     const displayData = (data: IHolding) => {
         if (userData !== undefined) {

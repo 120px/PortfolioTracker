@@ -31,7 +31,6 @@ def register_transaction(request):
             total_shares = holding.num_of_shares + int(transaction_num_of_shares)
             total_cost = holding.total_cost / int(transaction_num_of_shares)
             holding.num_of_shares = total_shares
-            print(holding.average_price)
             average_price = (holding.average_price + transaction_cost) / holding.num_of_shares
 
             # Edit the user's holding of the current stock
@@ -51,7 +50,6 @@ def register_transaction(request):
 
             total_cost = holding.total_cost / int(transaction_num_of_shares)
             holding.num_of_shares = total_shares
-            print(holding.average_price)
             # HOW DO YOU CALCULATE THE AVERGAGE PRICE ON SELL?
             average_price = (holding.average_price - transaction_cost) / holding.num_of_shares
             holding.average_price = average_price
@@ -103,9 +101,6 @@ def get_all_user_data(request):
     holdings_serializer = HoldingsSerializer(holdings, many=True)
     user_serializer = UserSerializer(user)
     user_general_information = user_serializer.get_contribution_information(user)
-
-    print(transactions_serializer.data)
-    print(holdings_serializer.data)
 
     return Response({
         "user_transactions": transactions_serializer.data,

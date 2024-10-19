@@ -4,10 +4,13 @@ import Authentication from './components/authentication/Authentication'
 import Dashboard from './components/dashboard/Dashboard'
 import axios from 'axios'
 import { useUserData } from './components/context/SetUserDataContext'
+import IUserData from './interfaces/IUserData'
+import { useUserHoldingsInformation } from './components/context/SetUserHoldingsInformation'
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const { userData, setUserData } = useUserData();
+  const { userHoldingsInformation, setUserHoldingsInformation } = useUserHoldingsInformation()
 
   useEffect(() => {
     if (isAuthenticated && localStorage.getItem("access_token") !== null) {
@@ -18,14 +21,43 @@ function App() {
     }
   }, [isAuthenticated])
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (isAuthenticated) {
+        // getTickerInformation(userData)
+        console.log("called")
+      }
+
+    }, 3000);
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
+
   const getUserData = () => {
     let access_token = localStorage.getItem("access_token")
     axios.get("http://127.0.0.1:8000/transactions/get_all_user_data/", {
       headers: {
         Authorization: `Bearer ${access_token}`
       }
-    }).then(response => {
-      setUserData(response.data)
+    }).then(async response => {
+      await setUserData(response.data)
+    })
+  }
+
+  const getTickerInformation = async (data: IUserData) => {
+    let access_token = localStorage.getItem("access_token")
+    let tickers = data.user_holdings.map(holding => holding.ticker).join(' ');
+    await axios.get("http://127.0.0.1:8000/yfinanceapi/search_stock/?action=get_ticker_information", {
+      headers: {
+        Authorization: `Bearer ${access_token}`
+      },
+      params: { tickers: tickers }
+    }).then(async response => {
+      console.log(response.data)
+      setUserHoldingsInformation(response.data)
+
     })
   }
 

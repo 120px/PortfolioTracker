@@ -20,7 +20,6 @@ interface props {
 
 const Main: React.FC<props> = ({ userData }) => {
     const [portfolioActivityType, setPortfolioActivityType] = useState<PortfolioActivityEnum>(PortfolioActivityEnum.HOLDINGS)
-    console.log(userData)
 
     const createPortfolioTypeButtons = () => {
 
@@ -34,7 +33,7 @@ const Main: React.FC<props> = ({ userData }) => {
     }
 
     return (
-        <div className='flex flex-col px-8'>
+        <div className='flex flex-col px-10'>
             {/* <Header></Header> */}
             <Tabs defaultValue="account" className="w-[100%]">
                 <TabsList>
@@ -47,7 +46,7 @@ const Main: React.FC<props> = ({ userData }) => {
                     <CardHeader>
                         <CardTitle>Overview</CardTitle>
                     </CardHeader>
-                    <CardContent className="flex flex-row gap-5">
+                    <CardContent className="flex flex-row gap-5 px-0">
                         <Card className='w-3/4'>
                             <ChartArea></ChartArea>
                         </Card>
