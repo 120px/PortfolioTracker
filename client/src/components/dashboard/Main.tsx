@@ -13,32 +13,26 @@ import { Input } from '../ui/input'
 import PortfolioCards from './PortfolioCards'
 import Holdings from './holdings/Holdings'
 import Transactions from './transaction/Transactions'
+import { HoldingsType } from '@/enums/HoldingsTypesEnum'
 
 interface props {
     userData: IUserData
 }
 
 const Main: React.FC<props> = ({ userData }) => {
-    const [portfolioActivityType, setPortfolioActivityType] = useState<PortfolioActivityEnum>(PortfolioActivityEnum.HOLDINGS)
+    const [holdingsType, setHoldingsType] = useState<HoldingsType>(HoldingsType.OVERVIEW)
 
-    const createPortfolioTypeButtons = () => {
-
-        return (Object.keys(PortfolioActivityEnum) as Array<keyof typeof PortfolioActivityEnum>).map((key, index) => (
-            <PortfolioTypeBtn key={index} buttonName={key} setPortfolioActivityType={() => setPortfolioActivityType(PortfolioActivityEnum[key])} />
-        ));
-    };
-
-    const handleHoldingsClick = () => {
-
+    const handleHoldingsType = (type: HoldingsType) => {
+        setHoldingsType(type)
     }
 
     return (
         <div className='flex flex-col px-10'>
-            {/* <Header></Header> */}
-            <Tabs defaultValue="account" className="w-[100%]">
+            <Header></Header>
+            <Tabs defaultValue="overview" className="w-[100%]">
                 <TabsList>
-                    <TabsTrigger value="overview">Overview</TabsTrigger>
-                    <TabsTrigger value="holdings" onClick={handleHoldingsClick()}>Holdings</TabsTrigger>
+                    <TabsTrigger value="overview" onClick={() => handleHoldingsType(HoldingsType.OVERVIEW)} >Overview</TabsTrigger>
+                    <TabsTrigger value="holdings" onClick={() => handleHoldingsType(HoldingsType.DETAILED)} >Holdings</TabsTrigger>
                     <TabsTrigger value="transactions">Transactions</TabsTrigger>
                 </TabsList>
                 <TabsContent value="overview">
@@ -51,13 +45,13 @@ const Main: React.FC<props> = ({ userData }) => {
                             <ChartArea></ChartArea>
                         </Card>
                         <Card className='w-1/2'>
-                            <Holdings userData={userData.user_holdings}></Holdings>
+                            <Holdings holdingsType={holdingsType} userData={userData.user_holdings}></Holdings>
                         </Card>
                     </CardContent>
                 </TabsContent>
                 <TabsContent value="holdings">
-                    <Card className='w-full'>
-                        <Holdings userData={userData.user_holdings}></Holdings>
+                    <Card className='w-full' >
+                        <Holdings holdingsType={holdingsType} userData={userData.user_holdings}></Holdings>
                     </Card>
                 </TabsContent>
                 <TabsContent value="transactions">

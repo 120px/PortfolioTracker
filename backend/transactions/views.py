@@ -28,19 +28,25 @@ def register_transaction(request):
         holding, created = Holdings.objects.get_or_create(user=user, ticker=transaction_stock_name)
 
         if transaction_type.lower() == "buy":
-            total_shares = holding.num_of_shares + int(transaction_num_of_shares)
-            total_cost = holding.total_cost / int(transaction_num_of_shares)
-            holding.num_of_shares = total_shares
-            average_price = (holding.average_price + transaction_cost) / holding.num_of_shares
+            try:
+                total_shares = holding.num_of_shares + float(transaction_num_of_shares)
 
-            # Edit the user's holding of the current stock
-            holding.average_price = average_price
-            holding.total_cost = total_cost
-            holding.save()
+                if holding.num_of_shares == 0:
+                    average_price = transaction_price
+                    total_cost = transaction_cost
+                else:
+                    total_cost = holding.total_cost + transaction_cost
+                    average_price = total_cost / total_shares
 
-            # Edit contribution
-            user.total_contribution += transaction_cost
-            user.save()
+                holding.num_of_shares = total_shares
+                holding.average_price = average_price
+                holding.total_cost = total_cost
+                holding.save()
+
+                user.total_contribution += transaction_cost
+                user.save()
+            except Exception as e:
+                print(e)
 
         elif transaction_type.lower() == "sell":
             total_shares = holding.num_of_shares - int(transaction_num_of_shares)

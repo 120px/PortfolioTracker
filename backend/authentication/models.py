@@ -3,5 +3,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
-    total_contribution = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    total_contribution = models.DecimalField(default=0, decimal_places=2, max_digits=15)
+    portfolio_value = models.DecimalField(default=0, decimal_places=2, max_digits=15)
 

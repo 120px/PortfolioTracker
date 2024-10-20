@@ -23,16 +23,16 @@ function App() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (isAuthenticated) {
+      if (isAuthenticated && userData) {
         getTickerInformation(userData)
       }
 
-    }, 6000);
+    }, 3000);
 
     return () => {
       clearInterval(interval)
     }
-  }, [])
+  }, [userData])
 
   const getUserData = () => {
     let access_token = localStorage.getItem("access_token")

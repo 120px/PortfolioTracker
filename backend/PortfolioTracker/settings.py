@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "rest_framework",
     'authentication.apps.AuthenticationConfig',
     "transactions.apps.TransactionsConfig",
+    "userinformation.apps.UserinformationConfig",
     "corsheaders"
 ]
 

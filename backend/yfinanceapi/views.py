@@ -26,7 +26,7 @@ class SearchTicker(APIView):
     def get_ticker_information(self, request):
         tickers = request.query_params.get("tickers")
         print(tickers)
-        toReturn = {}
+        toReturn = []
         try:
             tickers_data = yf.Tickers(tickers)
 
@@ -34,10 +34,14 @@ class SearchTicker(APIView):
                 if "fundFamily" in ticker_object.info:
                     # We are in a fund / etf
                     price = self.get_fund_ticker_price("vfv.to")
-                    toReturn[ticker_symbol] = price
+                    toReturn.append({ticker_symbol: {"ticker_price": price}})
                 else:
                     # We are in a regular stock
-                    toReturn[ticker_symbol] = ticker_object.info.get("currentPrice")
+                    toReturn.append({ticker_symbol: {"ticker_price": ticker_object.info.get("currentPrice")}})
+
+            # Calculate portfolio value
+
+
         except Exception as e:
             print(e)
 
@@ -54,3 +58,6 @@ class SearchTicker(APIView):
             return ticker_data
         except Exception as e:
             print(e)
+
+
+

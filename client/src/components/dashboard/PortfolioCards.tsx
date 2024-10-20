@@ -7,7 +7,7 @@ interface props {
 }
 
 const PortfolioCards: React.FC<props> = ({ userData }) => {
-    console.log("port: " + userData)
+
     return (
         <div className='w-full flex flex-row gap-5'>
             <Card className='w-1/4' >
@@ -18,13 +18,16 @@ const PortfolioCards: React.FC<props> = ({ userData }) => {
                 </CardContent>
             </Card>
             <Card className='w-1/4' >
-                <CardHeader>Portfolio Value</CardHeader>
+                <CardHeader className='p-6 flex flex-row items-center justify-between space-y-0 pb-2'>Portfolio Value</CardHeader>
+                <CardContent className='text-2xl font-bold'>$10,000</CardContent>
             </Card>
             <Card className='w-1/4' >
-                <CardHeader>Total P&L</CardHeader>
+                <CardHeader className='p-6 flex flex-row items-center justify-between space-y-0 pb-2'>Total P&L</CardHeader>
+                <CardContent className='text-2xl font-bold'>36%</CardContent>
             </Card>
             <Card className='w-1/4' >
-                <CardHeader>Total P&L</CardHeader>
+                <CardHeader className='p-6 flex flex-row items-center justify-between space-y-0 pb-2'>Total P&L</CardHeader>
+                <CardContent className='text-2xl font-bold'></CardContent>
             </Card>
         </div>
     )
