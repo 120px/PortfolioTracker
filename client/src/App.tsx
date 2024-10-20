@@ -24,7 +24,7 @@ function App() {
   useEffect(() => {
     const interval = setInterval(() => {
       if (isAuthenticated && userData) {
-        getTickerInformation(userData)
+        // getTickerInformation(userData)
       }
 
     }, 3000);
