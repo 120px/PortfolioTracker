@@ -15,7 +15,6 @@ const Holdings: React.FC<props> = ({ userData, holdingsType }) => {
     const { userHoldingsInformation, setUserHoldingsInformation } = useUserHoldingsInformation()
 
     const calculateProfitLoss = (tickerPrice: any, average_price: number) => {
-        console.log(tickerPrice)
         let percentage = ((tickerPrice - average_price) / tickerPrice) * 100
         return percentage.toFixed(2)
     }
@@ -40,7 +39,7 @@ const Holdings: React.FC<props> = ({ userData, holdingsType }) => {
     }
 
     const displayTickerPrices = (ticker: string) => {
-
+        
         if (userHoldingsInformation !== undefined) {
             const tickerObj = userHoldingsInformation.find(obj =>
                 obj.hasOwnProperty(ticker.toUpperCase())

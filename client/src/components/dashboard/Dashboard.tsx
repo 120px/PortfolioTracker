@@ -5,12 +5,13 @@ import IUserData from '@/interfaces/IUserData'
 
 interface props {
   userData: IUserData
+  userPortfolioValue: number | undefined
 }
 
-const Dashboard: React.FC<props> = ({ userData }) => {
+const Dashboard: React.FC<props> = ({ userData, userPortfolioValue}) => {
   return (
     <>
-      <Main userData={userData}></Main>
+      <Main userPortfolioValue={userPortfolioValue} userData={userData}></Main>
     </>
   )
 }

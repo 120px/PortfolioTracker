@@ -3,10 +3,11 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader } from '../u
 import IUserGeneralInformation from '@/interfaces/IUserGeneralInformation'
 
 interface props {
-    userData: IUserGeneralInformation
+    userData: IUserGeneralInformation,
+    userPortfolioValue: number | undefined
 }
 
-const PortfolioCards: React.FC<props> = ({ userData }) => {
+const PortfolioCards: React.FC<props> = ({ userData, userPortfolioValue }) => {
 
     return (
         <div className='w-full flex flex-row gap-5'>
@@ -19,7 +20,10 @@ const PortfolioCards: React.FC<props> = ({ userData }) => {
             </Card>
             <Card className='w-1/4' >
                 <CardHeader className='p-6 flex flex-row items-center justify-between space-y-0 pb-2'>Portfolio Value</CardHeader>
-                <CardContent className='text-2xl font-bold'>$10,000</CardContent>
+                <CardContent className='text-2xl font-bold'>$ {userPortfolioValue == undefined ? <p>loading...</p> : userPortfolioValue}
+                    <p className='text-xs text-muted-foreground font-normal'>Up / Down X% this month</p>
+                </CardContent>
+
             </Card>
             <Card className='w-1/4' >
                 <CardHeader className='p-6 flex flex-row items-center justify-between space-y-0 pb-2'>Total P&L</CardHeader>

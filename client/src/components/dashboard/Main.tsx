@@ -17,9 +17,10 @@ import { HoldingsType } from '@/enums/HoldingsTypesEnum'
 
 interface props {
     userData: IUserData
+    userPortfolioValue: number | undefined
 }
 
-const Main: React.FC<props> = ({ userData }) => {
+const Main: React.FC<props> = ({ userData, userPortfolioValue }) => {
     const [holdingsType, setHoldingsType] = useState<HoldingsType>(HoldingsType.OVERVIEW)
 
     const handleHoldingsType = (type: HoldingsType) => {
@@ -36,7 +37,7 @@ const Main: React.FC<props> = ({ userData }) => {
                     <TabsTrigger value="transactions">Transactions</TabsTrigger>
                 </TabsList>
                 <TabsContent value="overview">
-                    <PortfolioCards userData={userData.user_general_information}></PortfolioCards>
+                    <PortfolioCards userPortfolioValue={userPortfolioValue} userData={userData.user_general_information}></PortfolioCards>
                     <CardHeader>
                         <CardTitle>Overview</CardTitle>
                     </CardHeader>

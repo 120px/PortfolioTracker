@@ -9,7 +9,8 @@ import { useUserHoldingsInformation } from './components/context/SetUserHoldings
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const { userData, setUserData } = useUserData();
+  const [userPortfolioValue, setUserPortfoilioValue] = useState(undefined)
+  const { userData, setUserData } = useUserData()
   const { userHoldingsInformation, setUserHoldingsInformation } = useUserHoldingsInformation()
 
   useEffect(() => {
@@ -24,7 +25,10 @@ function App() {
   useEffect(() => {
     const interval = setInterval(() => {
       if (isAuthenticated && userData) {
+        // Gets ticker prices of current holdings
         // getTickerInformation(userData)
+        
+        calculateUserPortfolioValue(userData)
       }
 
     }, 3000);
@@ -58,9 +62,22 @@ function App() {
     })
   }
 
+  const calculateUserPortfolioValue = async (data: IUserData) => {
+    let access_token = localStorage.getItem("access_token")
+    let tickers = data.user_holdings.map(holding => holding.ticker).join(' ');
+    await axios.get("http://127.0.0.1:8000/userinformation/calculate_portfolio_value", {
+      headers: {
+        Authorization: `Bearer ${access_token}`
+      },
+      params: { tickers: tickers }
+    }).then(async response => {
+      setUserPortfoilioValue(response.data)
+    })
+  }
+
   return (
     <>
-      {isAuthenticated == true && userData !== undefined ? <Dashboard userData={userData} /> : <Authentication setIsAuthenticated={setIsAuthenticated} />}
+      {isAuthenticated == true && userData !== undefined ? <Dashboard userPortfolioValue={userPortfolioValue} userData={userData} /> : <Authentication setIsAuthenticated={setIsAuthenticated} />}
     </>
   )
 }

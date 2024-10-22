@@ -4,7 +4,6 @@ import React, { createContext, useContext, useState } from 'react';
 interface IUserHoldingsInformationContext {
     userHoldingsInformation: TickersInfo | undefined,
     setUserHoldingsInformation: React.Dispatch<React.SetStateAction<TickersInfo | undefined>>
-
 }
 
 export const UserHoldingsInformationContext = createContext<IUserHoldingsInformationContext | undefined>(undefined)

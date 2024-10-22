@@ -39,9 +39,6 @@ class SearchTicker(APIView):
                     # We are in a regular stock
                     toReturn.append({ticker_symbol: {"ticker_price": ticker_object.info.get("currentPrice")}})
 
-            # Calculate portfolio value
-
-
         except Exception as e:
             print(e)
 
