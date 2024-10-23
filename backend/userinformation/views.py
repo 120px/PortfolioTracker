@@ -31,3 +31,6 @@ def calculate_portfolio_value(request):
     except Exception as e:
         print(e)
         return Response()
+
+def take_user_snapshot():
+    

@@ -27,7 +27,7 @@ function App() {
       if (isAuthenticated && userData) {
         // Gets ticker prices of current holdings
         // getTickerInformation(userData)
-        
+
         calculateUserPortfolioValue(userData)
       }
 

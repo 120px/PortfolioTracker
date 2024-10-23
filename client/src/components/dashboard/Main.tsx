@@ -43,6 +43,12 @@ const Main: React.FC<props> = ({ userData, userPortfolioValue }) => {
                     </CardHeader>
                     <CardContent className="flex flex-row gap-5 px-0">
                         <Card className='w-3/4'>
+                            <TabsList className='h-8 text-sm'>
+                                <TabsTrigger value="15D">15D</TabsTrigger>
+                                <TabsTrigger value="holdings">3M</TabsTrigger>
+                                <TabsTrigger value="transactions">6M</TabsTrigger>
+                                <TabsTrigger value="transactions">All</TabsTrigger>
+                            </TabsList>
                             <ChartArea></ChartArea>
                         </Card>
                         <Card className='w-1/2'>
