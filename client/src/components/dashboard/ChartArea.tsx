@@ -21,7 +21,7 @@ const ChartArea = () => {
     return (
         <ChartContainer config={chartConfig} className="mx-auto min-h-[200px] w-3/4">
             <AreaChart accessibilityLayer data={chartData}>
-                <Area type="monotone" dataKey="fifteenDays" stroke="#8884d8" fillOpacity={1} fill="#00000" />
+                <Area type="monotone" dataKey="fifteenDays" stroke="#0bb530" fillOpacity={.4} fill="#6ef08a" />
             </AreaChart>
         </ChartContainer>
     )

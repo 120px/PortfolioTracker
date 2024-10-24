@@ -34,7 +34,7 @@ const Register: React.FC<AuthProps> = ({ setIsAuthenticated, setAuthMode }) => {
   return (
     <div className='flex flex-col'>
       <form className='' onSubmit={handleSubmit(onSubmit)}>
-        <Input {...register("username")} type='username' placeholder='Username' className='my-2' />
+        <Input {...register("username")} required={true} maxLength={13} type='username' placeholder='Username' className='my-2' />
         <Input {...register("password")} required={true} type='password' placeholder='Password' className='my-2' />
         {/* <Input type='email' placeholder='email' /> */}
 
