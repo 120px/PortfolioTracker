@@ -1,4 +1,4 @@
 export enum TransactionType{
-    BUY = "buy",
-    SELL = "sell"
+    BUY = "Buy",
+    SELL = "Sell"
 }

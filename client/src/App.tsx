@@ -28,7 +28,7 @@ function App() {
         // Gets ticker prices of current holdings
         // getTickerInformation(userData)
 
-        calculateUserPortfolioValue(userData)
+        // calculateUserPortfolioValue(userData)
       }
 
     }, 3000);

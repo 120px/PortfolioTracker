@@ -45,9 +45,9 @@ const Main: React.FC<props> = ({ userData, userPortfolioValue }) => {
                         <Card className='w-3/4'>
                             <TabsList className='h-8 text-sm'>
                                 <TabsTrigger value="15D">15D</TabsTrigger>
-                                <TabsTrigger value="holdings">3M</TabsTrigger>
-                                <TabsTrigger value="transactions">6M</TabsTrigger>
-                                <TabsTrigger value="transactions">All</TabsTrigger>
+                                <TabsTrigger value="">3M</TabsTrigger>
+                                <TabsTrigger value="">6M</TabsTrigger>
+                                <TabsTrigger value="">All</TabsTrigger>
                             </TabsList>
                             <ChartArea></ChartArea>
                         </Card>

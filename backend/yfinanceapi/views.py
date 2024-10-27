@@ -1,5 +1,5 @@
-from django.shortcuts import render
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 import yfinance as yf
@@ -16,19 +16,19 @@ class SearchTicker(APIView):
             user_input = request.query_params.get("userInput", "")
 
             if not user_input:
-                return Response(status=400)
+                return Response("Please enter a ticker", status=status.HTTP_400_BAD_REQUEST)
 
             ticker_info = yf.Ticker(user_input)
             return Response(ticker_info.info['longName'], status=200)
         except Exception as e:
-            return Response({"error": str(e)}, status=500)
+            return Response({"This ticker does not exist."}, status=status.HTTP_404_NOT_FOUND)
 
     def get_ticker_information(self, request):
         tickers = request.query_params.get("tickers")
-        print(tickers)
         toReturn = []
         try:
             tickers_data = yf.Tickers(tickers)
+            print("ERROR HERE: "  + tickers_data)
 
             for ticker_symbol, ticker_object in tickers_data.tickers.items():
                 if "fundFamily" in ticker_object.info:
@@ -39,10 +39,7 @@ class SearchTicker(APIView):
                     # We are in a regular stock
                     toReturn.append({ticker_symbol: {"ticker_price": ticker_object.info.get("currentPrice")}})
 
-        except Exception as e:
-            print(e)
 
-        try:
             return Response(data=toReturn, status=200)
         except Exception as e:
             return Response({"error": str(e)}, status=500)
