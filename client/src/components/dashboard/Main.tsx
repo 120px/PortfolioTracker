@@ -28,7 +28,7 @@ const Main: React.FC<props> = ({ userData, userPortfolioValue }) => {
     }
 
     return (
-        <div className='flex flex-col px-10'>
+        <div className='flex flex-col px-10 h-max'>
             <Header></Header>
             <Tabs defaultValue="overview" className="w-[100%]">
                 <TabsList>

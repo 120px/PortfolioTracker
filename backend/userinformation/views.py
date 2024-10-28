@@ -33,4 +33,5 @@ def calculate_portfolio_value(request):
         return Response()
 
 def take_user_snapshot():
+
     return Response(200)

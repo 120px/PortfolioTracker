@@ -19,7 +19,7 @@ const chartConfig = {
 
 const ChartArea = () => {
     return (
-        <ChartContainer config={chartConfig} className="mx-auto min-h-[200px] w-3/4">
+        <ChartContainer config={chartConfig} className="mx-auto min-h-[200px] w-100 p-0">
             <AreaChart accessibilityLayer data={chartData}>
                 <Area type="monotone" dataKey="fifteenDays" stroke="#0bb530" fillOpacity={.4} fill="#6ef08a" />
             </AreaChart>
