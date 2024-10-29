@@ -14,13 +14,15 @@ import PortfolioCards from './PortfolioCards'
 import Holdings from './holdings/Holdings'
 import Transactions from './transaction/Transactions'
 import { HoldingsType } from '@/enums/HoldingsTypesEnum'
+import IChartData from '@/interfaces/IChartData'
 
 interface props {
     userData: IUserData
     userPortfolioValue: number | undefined
+    chartData: IChartData | undefined
 }
 
-const Main: React.FC<props> = ({ userData, userPortfolioValue }) => {
+const Main: React.FC<props> = ({ userData, userPortfolioValue, chartData }) => {
     const [holdingsType, setHoldingsType] = useState<HoldingsType>(HoldingsType.OVERVIEW)
 
     const handleHoldingsType = (type: HoldingsType) => {
@@ -49,7 +51,7 @@ const Main: React.FC<props> = ({ userData, userPortfolioValue }) => {
                                 <TabsTrigger value="">6M</TabsTrigger>
                                 <TabsTrigger value="">All</TabsTrigger>
                             </TabsList>
-                            <ChartArea></ChartArea>
+                            <ChartArea chartData={chartData}></ChartArea>
                         </Card>
                         <Card className='w-1/2'>
                             <Holdings holdingsType={holdingsType} userData={userData.user_holdings}></Holdings>

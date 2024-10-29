@@ -62,7 +62,7 @@ CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Or another broker like RabbitM
 CELERY_BEAT_SCHEDULE = {
     'daily_snapshot': {
         'task': 'PortfolioTracker.tasks.snapshot_total_portfolio_value',
-        'schedule': timedelta(seconds=5),
+        'schedule': timedelta(seconds=10),
     },
 }
 

@@ -85,8 +85,7 @@ const CreateTransactionModal = () => {
     }
 
     return (
-        <Dialog>
-            <DialogTrigger className=''>Add</DialogTrigger>
+        <>
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle className='pb-6'>Add transaction</DialogTitle>
@@ -121,7 +120,7 @@ const CreateTransactionModal = () => {
                     </DialogDescription>
                 </DialogHeader>
             </DialogContent>
-        </Dialog>
+        </>
 
     )
 }

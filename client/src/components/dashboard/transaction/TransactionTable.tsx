@@ -25,7 +25,7 @@ const TransactionTable: React.FC<props> = ({ userData }) => {
     }
 
     return (
-        <Table>
+        <Table className=''>
             <TableHeader>
                 <TableRow className=''>
                     <TableHead className="text-center">Type</TableHead>

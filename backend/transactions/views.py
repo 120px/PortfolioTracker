@@ -49,18 +49,33 @@ def register_transaction(request):
                 print(e)
 
         elif transaction_type.lower() == "sell":
-            total_shares = holding.num_of_shares - int(transaction_num_of_shares)
+            try:
+                # Update the total number of shares after selling
+                transaction_num_of_shares = int(transaction_num_of_shares)
+                total_shares = holding.num_of_shares - transaction_num_of_shares
 
-            if total_shares < 0:
-                print("negative value")
+                if total_shares < 0:
+                    print("Cannot sell more shares than owned.")
+                else:
+                    # Calculate the total cost of the shares being sold
+                    total_cost_of_sold_shares = holding.average_price * transaction_num_of_shares
 
-            total_cost = holding.total_cost / int(transaction_num_of_shares)
-            holding.num_of_shares = total_shares
-            # HOW DO YOU CALCULATE THE AVERGAGE PRICE ON SELL?
-            average_price = (holding.average_price - transaction_cost) / holding.num_of_shares
-            holding.average_price = average_price
-            holding.total_cost = total_cost
-            holding.save()
+                    # Update the total cost of the remaining shares
+                    holding.total_cost -= total_cost_of_sold_shares
+
+                    # Update the number of shares
+                    holding.num_of_shares = total_shares
+
+                    # Recalculate the average price for the remaining shares
+                    if holding.num_of_shares > 0:
+                        holding.average_price = holding.total_cost / holding.num_of_shares
+                    else:
+                        holding.average_price = 0  # Set to 0 if no shares remain
+                holding.save()
+
+            except Exception as e:
+                print(e)
+                return Response(status=status.HTTP_400_BAD_REQUEST)
 
         transaction.save()
         user_transactions = Transaction.objects.filter(user=user)

@@ -6,16 +6,19 @@ import axios from 'axios'
 import { useUserData } from './components/context/SetUserDataContext'
 import IUserData from './interfaces/IUserData'
 import { useUserHoldingsInformation } from './components/context/SetUserHoldingsInformation'
+import IChartData from './interfaces/IChartData'
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [userPortfolioValue, setUserPortfoilioValue] = useState(undefined)
   const { userData, setUserData } = useUserData()
+  const [chartData, setChartData] = useState<IChartData | undefined>()
   const { userHoldingsInformation, setUserHoldingsInformation } = useUserHoldingsInformation()
 
   useEffect(() => {
     if (isAuthenticated && localStorage.getItem("access_token") !== null) {
       getUserData()
+      fetchChartData()
     }
     return () => {
 
@@ -37,6 +40,17 @@ function App() {
       clearInterval(interval)
     }
   }, [userData])
+
+  const fetchChartData = () => {
+    let access_token = localStorage.getItem("access_token")
+    axios.get("http://127.0.0.1:8000/userinformation/get_user_snapshot", {
+      headers: { Authorization: `Bearer ${access_token}` }
+    }).
+      then((response) => {
+        console.log(response.data)
+        setChartData(response.data)
+      })
+  }
 
   const getUserData = () => {
     let access_token = localStorage.getItem("access_token")
@@ -77,7 +91,8 @@ function App() {
 
   return (
     <>
-      {isAuthenticated == true && userData !== undefined ? <Dashboard userPortfolioValue={userPortfolioValue} userData={userData} /> : <Authentication setIsAuthenticated={setIsAuthenticated} />}
+      {isAuthenticated == true && userData !== undefined ? <Dashboard userPortfolioValue={userPortfolioValue} chartData={chartData} userData={userData} /> 
+      : <Authentication setIsAuthenticated={setIsAuthenticated} />}
     </>
   )
 }

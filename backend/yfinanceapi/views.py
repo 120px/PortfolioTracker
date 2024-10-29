@@ -48,7 +48,7 @@ class SearchTicker(APIView):
         try:
             ticker_info = yf.Ticker(ticker)
             ticker_history = ticker_info.history(period="1d")
-            ticker_data = ticker_history["Close"][0]
+            ticker_data = ticker_history["Close"].iloc[0]
             return ticker_data
         except Exception as e:
             print(e)
