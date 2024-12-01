@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'authentication.apps.AuthenticationConfig',
     "transactions.apps.TransactionsConfig",
     "userinformation.apps.UserinformationConfig",
+    "importdata.apps.ImportdataConfig",
     "corsheaders"
 ]
 

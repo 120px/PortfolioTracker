@@ -16,8 +16,13 @@ function App() {
   const { userHoldingsInformation, setUserHoldingsInformation } = useUserHoldingsInformation()
 
   useEffect(() => {
-    if (isAuthenticated && localStorage.getItem("access_token") !== null) {
+    
+  }, [])
+
+  useEffect(() => {
+    if (localStorage.getItem("access_token") !== null)
       getUserData()
+    if (isAuthenticated && localStorage.getItem("access_token") !== null) {
       fetchChartData()
     }
     return () => {
@@ -30,7 +35,6 @@ function App() {
       if (isAuthenticated && userData) {
         // Gets ticker prices of current holdings
         // getTickerInformation(userData)
-
         // calculateUserPortfolioValue(userData)
       }
 
@@ -59,13 +63,16 @@ function App() {
         Authorization: `Bearer ${access_token}`
       }
     }).then(async response => {
-      await setUserData(response.data)
+      if (response) {
+        await setUserData(response.data)
+        setIsAuthenticated(true)
+      }
     })
   }
 
   const getTickerInformation = async (data: IUserData) => {
     let access_token = localStorage.getItem("access_token")
-    let tickers = data.user_holdings.map(holding => holding.ticker).join(' ');
+    let tickers = data.user_holdings.map(holding => holding.ticker).join(',');
     await axios.get("http://127.0.0.1:8000/yfinanceapi/search_stock/?action=get_ticker_information", {
       headers: {
         Authorization: `Bearer ${access_token}`
@@ -91,10 +98,11 @@ function App() {
 
   return (
     <>
-      {isAuthenticated == true && userData !== undefined ? <Dashboard userPortfolioValue={userPortfolioValue} chartData={chartData} userData={userData} /> 
-      : <Authentication setIsAuthenticated={setIsAuthenticated} />}
+      {isAuthenticated == true && userData !== undefined ? <Dashboard userPortfolioValue={userPortfolioValue} chartData={chartData} userData={userData} />
+        : <Authentication setIsAuthenticated={setIsAuthenticated} />}
     </>
   )
 }
 
 export default App
+

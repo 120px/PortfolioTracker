@@ -20,7 +20,7 @@ const PortfolioCards: React.FC<props> = ({ userData, userPortfolioValue }) => {
             </Card>
             <Card className='w-1/4' >
                 <CardHeader className='p-6 flex flex-row items-center justify-between space-y-0 pb-2'>Portfolio Value</CardHeader>
-                <CardContent className='text-2xl font-bold'>$ {userPortfolioValue == undefined ? "loading..." : userPortfolioValue}
+                <CardContent className='text-2xl font-bold'>{userPortfolioValue == undefined ? "loading..." : "$ " + userPortfolioValue}
                     <p className='text-xs text-muted-foreground font-normal'>Up / Down X% this month</p>
                 </CardContent>
 

@@ -28,7 +28,6 @@ class SearchTicker(APIView):
         toReturn = []
         try:
             tickers_data = yf.Tickers(tickers)
-            print("ERROR HERE: "  + tickers_data)
 
             for ticker_symbol, ticker_object in tickers_data.tickers.items():
                 if "fundFamily" in ticker_object.info:
@@ -38,7 +37,6 @@ class SearchTicker(APIView):
                 else:
                     # We are in a regular stock
                     toReturn.append({ticker_symbol: {"ticker_price": ticker_object.info.get("currentPrice")}})
-
 
             return Response(data=toReturn, status=200)
         except Exception as e:

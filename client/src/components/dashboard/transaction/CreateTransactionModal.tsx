@@ -17,7 +17,7 @@ import { useUserData } from "../../context/SetUserDataContext"
 const CreateTransactionModal = () => {
     const { register, handleSubmit, getValues } = useForm()
     const { userData, setUserData } = useUserData();
-    const [transactionType, setTransactionType] = useState<string>("")
+    const [transactionType, setTransactionType] = useState<Object>({ status: "NONE", hasError: false })
     const [formErrors, setFormErrors] = useState("")
     const [validatedTicker, setValidatedTicker] = useState<Boolean | undefined>(undefined)
 
@@ -27,6 +27,14 @@ const CreateTransactionModal = () => {
     const [fetchedTransactionStockName, setFetchedTransactionStockName] = useState<string>("")
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        if (transactionType.status == "NONE") {
+            setTransactionType((prev) => ({
+                ...prev,
+                hasError: true,
+            }));
+            return showTransactionTypeError()
+        }
+
         if (validatedTicker === false) {
             return
         }
@@ -84,6 +92,10 @@ const CreateTransactionModal = () => {
             })
     }
 
+    const showTransactionTypeError = () => {
+        return <p>Please select a transaction type</p>
+    }
+
     return (
         <>
             <DialogContent>
@@ -91,6 +103,7 @@ const CreateTransactionModal = () => {
                     <DialogTitle className='pb-6'>Add transaction</DialogTitle>
                     <DialogDescription>
                         <form className='flex flex-col text-center' onSubmit={handleSubmit(onSubmit)}>
+                            {transactionType.hasError == true ? <p className='text-red-500'>Please select a transaction type</p> : null}
                             <TransactionComboBox setTransactionType={setTransactionType} transactionType={transactionType}></TransactionComboBox>
 
                             <div className='flex flex-row items-baseline gap-4'>

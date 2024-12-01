@@ -15,7 +15,7 @@ def register_user(request):
         if request.method == "POST":
             verify_username = CustomUser.objects.filter(username=request.data["username"])
 
-            if verify_username is not None:
+            if verify_username.exists():
                 return Response("Username already taken", status=status.HTTP_409_CONFLICT)
 
             serializer = UserSerializer(data=request.data)
@@ -25,6 +25,7 @@ def register_user(request):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
+        print(e)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
