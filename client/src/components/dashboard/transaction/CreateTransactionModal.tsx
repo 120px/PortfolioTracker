@@ -14,7 +14,7 @@ import axios from 'axios'
 import { Button } from '../../ui/button'
 import { useUserData } from "../../context/SetUserDataContext"
 
-const CreateTransactionModal = () => {
+const CreateTransactionModal = (data: any) => {
     const { register, handleSubmit, getValues } = useForm()
     const { userData, setUserData } = useUserData();
     const [transactionType, setTransactionType] = useState<Object>({ status: "NONE", hasError: false })

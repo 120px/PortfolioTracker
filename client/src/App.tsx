@@ -34,8 +34,8 @@ function App() {
     const interval = setInterval(() => {
       if (isAuthenticated && userData) {
         // Gets ticker prices of current holdings
-        // getTickerInformation(userData)
-        // calculateUserPortfolioValue(userData)
+        getTickerInformation(userData)
+        calculateUserPortfolioValue(userData)
       }
 
     }, 3000);
