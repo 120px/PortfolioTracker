@@ -114,8 +114,8 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "Prysm",
-        "USER": "admin",
-        "PASSWORD": "admin",
+        "USER": "postgres",
+        "PASSWORD": "12345",
         "HOST": "localhost",
         "PORT": "5432"
     }

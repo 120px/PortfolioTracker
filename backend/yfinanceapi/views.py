@@ -1,3 +1,5 @@
+import time
+
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.views import APIView
@@ -5,23 +7,35 @@ from rest_framework.response import Response
 import yfinance as yf
 import requests
 
+
 class SearchTicker(APIView):
     # permission_classes = [IsAuthenticated]
     def get(self, request):
         try:
-            action = request.query_params.get("action", "")
-            if action == "get_ticker_information":
-                return self.get_ticker_information(request)
-
             user_input = request.query_params.get("userInput", "")
-
-            if not user_input:
+            if not user_input or user_input == "":
                 return Response("Please enter a ticker", status=status.HTTP_400_BAD_REQUEST)
 
-            ticker_info = yf.Ticker(user_input)
-            return Response(ticker_info.info['longName'], status=200)
+            action = request.query_params.get("action", "")
+
+            if action == "get_ticker_information":
+                return self.get_ticker_information(request)
+            elif action == "validate_ticker":
+                return self.validate_ticker(request)
+
+            return Response("", status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"This ticker does not exist."}, status=status.HTTP_404_NOT_FOUND)
+
+    def validate_ticker(self, request):
+        ticker = request.query_params.get("userInput")
+        try:
+            ticker_info = yf.Ticker(ticker)
+            return Response(data=ticker_info.info["longName"], status=status.HTTP_200_OK)
+        except Exception as e:
+            print({e})
+            return Response({"error": "Ticker not valid."}, status=status.HTTP_400_BAD_REQUEST)
+
 
     def get_ticker_information(self, request):
         tickers = request.query_params.get("tickers")
@@ -50,6 +64,3 @@ class SearchTicker(APIView):
             return ticker_data
         except Exception as e:
             print(e)
-
-
-

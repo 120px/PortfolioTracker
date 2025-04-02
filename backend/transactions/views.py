@@ -41,6 +41,7 @@ def register_transaction(request):
                 holding.num_of_shares = total_shares
                 holding.average_price = average_price
                 holding.total_cost = total_cost
+                print("holding")
                 holding.save()
 
                 user.total_contribution += transaction_cost

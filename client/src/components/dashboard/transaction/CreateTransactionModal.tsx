@@ -14,29 +14,34 @@ import axios from 'axios'
 import { Button } from '../../ui/button'
 import { useUserData } from "../../context/SetUserDataContext"
 
+interface TransactionType {
+    status: string;
+    hasError: boolean;
+}
+
 const CreateTransactionModal = (data: any) => {
     const { register, handleSubmit, getValues } = useForm()
     const { userData, setUserData } = useUserData();
-    const [transactionType, setTransactionType] = useState<Object>({ status: "NONE", hasError: false })
+    const [transactionType, setTransactionType] = useState<TransactionType>({ status: "NONE", hasError: false })
     const [formErrors, setFormErrors] = useState("")
     const [validatedTicker, setValidatedTicker] = useState<Boolean | undefined>(undefined)
-
     const [transactionPrice, setTransactionPrice] = useState<number | undefined>(undefined)
     const [transactionNumOfShares, setTransactionNumOfShares] = useState<number | undefined>(undefined)
     const [transactionCost, setTransactionCost] = useState<number | undefined>(undefined)
     const [fetchedTransactionStockName, setFetchedTransactionStockName] = useState<string>("")
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
+
         if (transactionType.status == "NONE") {
             setTransactionType((prev) => ({
                 ...prev,
                 hasError: true,
             }));
-            return showTransactionTypeError()
+            return showTransactionTypeError();
         }
 
         if (validatedTicker === false) {
-            return
+            return;
         }
 
         if (localStorage.getItem("access_token") !== null && localStorage.getItem("access_token") !== undefined) {
@@ -49,7 +54,6 @@ const CreateTransactionModal = (data: any) => {
 
             })
                 .then(response => {
-                    console.log(response)
                     setUserData(response.data)
                 })
         }
@@ -74,20 +78,20 @@ const CreateTransactionModal = (data: any) => {
     };
 
     const validateTicker = (ticker: string) => {
-        setFetchedTransactionStockName("")
         axios.get("http://127.0.0.1:8000/yfinanceapi/search_stock/", {
-            params: { userInput: ticker }
+            params: { userInput: ticker, action: "validate_ticker" }
         })
             .then(response => {
-                if (response.data) {
+                if (response.data && response.data.error !== "") {
+                    console.log(response.data)
                     setFetchedTransactionStockName(response.data)
                     setValidatedTicker(true)
                 }
             }).catch((error) => {
-                if (error.response)
+                console.log(error)
+                if (error.response) {
                     setFormErrors(error.response.data)
-
-                console.log(validatedTicker)
+                }
                 setValidatedTicker(false)
             })
     }
@@ -112,10 +116,6 @@ const CreateTransactionModal = (data: any) => {
                                         className={validatedTicker == false ? "border-red-600 border-2 my-2" : "my-2"} value={fetchedTransactionStockName}
                                         onChange={(e) => setFetchedTransactionStockName(e.target.value)} />
                                 </div>
-                                <Button type='button' onClick={() => {
-                                    const ticker = getValues("transactionStockName");
-                                    validateTicker(ticker);
-                                }}>Validate</Button>
                             </div>
 
                             <Input {...register("transactionDate")} required={true} type='date' placeholder='Date' className='my-2' />
@@ -128,7 +128,7 @@ const CreateTransactionModal = (data: any) => {
                             <Input value={transactionCost !== undefined ? transactionCost.toFixed(2) : ''}
                                 {...register("transactionCost")} type='number' placeholder='Cost' className='my-2' required={true} />
 
-                            <Button>Submit</Button>
+                            <Button type='submit'>Submit</Button>
                         </form>
                     </DialogDescription>
                 </DialogHeader>
