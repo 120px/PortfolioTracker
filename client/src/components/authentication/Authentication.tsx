@@ -21,7 +21,7 @@ const Authentication: React.FC<props> = ({ setIsAuthenticated }) => {
             </div>
 
             <div className='flex justify-center min-h-max pt-4'>
-                <div className='w-72 border-2 border-gray-800 rounded-md p-8'>
+                <div className='w-72 border-2 border-gray-800 rounded-md p-6'>
                     {authMode === AuthModeTypes.LOGIN ? (
                         <Login setAuthMode={setAuthMode} setIsAuthenticated={setIsAuthenticated} />
                     ) : (

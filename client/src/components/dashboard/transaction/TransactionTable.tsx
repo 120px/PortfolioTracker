@@ -1,17 +1,16 @@
 import React, { useState } from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../ui/table'
 import { ITransaction } from '@/interfaces/ITransaction'
+import TransactionEditBtn from './TransactionEditBtn'
 
 interface props {
     userData: ITransaction[]
 }
 
 const TransactionTable: React.FC<props> = ({ userData }) => {
-    console.log("DATA: " + userData)
 
     const displayData = () => {
         if (userData !== undefined) {
-            console.log(userData)
             return (
                 userData.map((data, index) => (
                     <TableRow key={index}>
@@ -19,6 +18,7 @@ const TransactionTable: React.FC<props> = ({ userData }) => {
                         <TableCell className="text-center">{data.stock_name.toLocaleUpperCase()}</TableCell>
                         <TableCell className="text-center">{data.num_of_shares}</TableCell>
                         <TableCell className="text-center">$ {data.cost}</TableCell>
+                        <TableCell className="text-center"><TransactionEditBtn data={data}/></TableCell>
                     </TableRow>
                 ))
             )
@@ -27,13 +27,14 @@ const TransactionTable: React.FC<props> = ({ userData }) => {
     }
 
     return (
-        <Table>
+        <Table className=''>
             <TableHeader>
                 <TableRow className=''>
                     <TableHead className="text-center">Type</TableHead>
                     <TableHead className="text-center">Name</TableHead>
                     <TableHead className="text-center">Num. of Shares</TableHead>
                     <TableHead className="text-center">Cost</TableHead>
+                    <TableHead className="text-center"></TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>

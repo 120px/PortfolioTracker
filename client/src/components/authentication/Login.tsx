@@ -1,5 +1,5 @@
 import { Button } from '../ui/button'
-import React from 'react'
+import React, { useState } from 'react'
 import LoginBtn from './LoginBtn'
 import AuthProps from "../../interfaces/AuthProps"
 import { AuthModeTypes } from '../../enums/AuthModeTypes'
@@ -9,18 +9,18 @@ import { Input } from '../ui/input'
 
 const Login: React.FC<AuthProps> = ({ setAuthMode, setIsAuthenticated }) => {
     const { register, handleSubmit } = useForm()
+    const [formErrors, setFormErrors] = useState("")
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         axios.post("http://127.0.0.1:8000/authentication/login/", data)
             .then(response => {
                 localStorage.setItem("access_token", response.data.access)
-                console.log("token: " + localStorage.getItem("access_token"))
                 setIsAuthenticated(true)
 
             })
             .catch(error => {
                 if (error.response)
-                    console.log("error: " + error.response.status)
+                    setFormErrors(error.response.data)
                 else if (error.request)
                     console.log("Error request: " + error.request)
                 else
@@ -31,6 +31,7 @@ const Login: React.FC<AuthProps> = ({ setAuthMode, setIsAuthenticated }) => {
     return (
         <div className='flex flex-col'>
             <form onSubmit={handleSubmit(onSubmit)}>
+                {formErrors !== "" ? <p className='text-center text-sm text-red-600'>{formErrors}</p> : null}
                 <Input {...register("username")} type='username' placeholder='Username' className='my-2' />
                 <Input {...register("password")} required={true} type='password' placeholder='Password' className='my-2' />
 

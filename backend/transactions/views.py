@@ -1,10 +1,11 @@
-from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import Transaction, Holdings
 from .serializer import TransactionSerializer, HoldingsSerializer
+from authentication.models import CustomUser
+from authentication.serializer import UserSerializer
 
 
 @api_view(["POST"])
@@ -27,39 +28,66 @@ def register_transaction(request):
         holding, created = Holdings.objects.get_or_create(user=user, ticker=transaction_stock_name)
 
         if transaction_type.lower() == "buy":
-            total_shares = holding.num_of_shares + int(transaction_num_of_shares)
-            total_cost = holding.total_cost / int(transaction_num_of_shares)
-            holding.num_of_shares = total_shares
-            print(holding.average_price)
-            average_price = (holding.average_price + transaction_cost) / holding.num_of_shares
-            holding.average_price = average_price
-            holding.total_cost = total_cost
-            holding.save()
+            try:
+                total_shares = holding.num_of_shares + float(transaction_num_of_shares)
+
+                if holding.num_of_shares == 0:
+                    average_price = transaction_price
+                    total_cost = transaction_cost
+                else:
+                    total_cost = holding.total_cost + transaction_cost
+                    average_price = total_cost / total_shares
+
+                holding.num_of_shares = total_shares
+                holding.average_price = average_price
+                holding.total_cost = total_cost
+                print("holding")
+                holding.save()
+
+                user.total_contribution += transaction_cost
+                user.save()
+            except Exception as e:
+                print(e)
+
         elif transaction_type.lower() == "sell":
-            total_shares = holding.num_of_shares - int(transaction_num_of_shares)
+            try:
+                # Update the total number of shares after selling
+                transaction_num_of_shares = int(transaction_num_of_shares)
+                total_shares = holding.num_of_shares - transaction_num_of_shares
 
-            if total_shares < 0:
-                print("negative value")
+                if total_shares < 0:
+                    print("Cannot sell more shares than owned.")
+                else:
+                    # Calculate the total cost of the shares being sold
+                    total_cost_of_sold_shares = holding.average_price * transaction_num_of_shares
 
-            total_cost = holding.total_cost / int(transaction_num_of_shares)
-            holding.num_of_shares = total_shares
-            print(holding.average_price)
-            # HOW DO YOU CALCULATE THE AVERGAGE PRICE ON SELL?
-            average_price = (holding.average_price - transaction_cost) / holding.num_of_shares
-            holding.average_price = average_price
-            holding.total_cost = total_cost
-            holding.save()
+                    # Update the total cost of the remaining shares
+                    holding.total_cost -= total_cost_of_sold_shares
 
-        # transaction.save()
-        # print(transaction)
-        #
-        # user_transactions = Transaction.objects.filter(user=user)
-        # serializer = TransactionSerializer(user_transactions, many=True)
-        return Response(
-            {
-                "detail": "Transaction registered successfully",
-                # "transactions": serializer.data,
-            },
+                    # Update the number of shares
+                    holding.num_of_shares = total_shares
+
+                    # Recalculate the average price for the remaining shares
+                    if holding.num_of_shares > 0:
+                        holding.average_price = holding.total_cost / holding.num_of_shares
+                    else:
+                        holding.average_price = 0  # Set to 0 if no shares remain
+                holding.save()
+
+            except Exception as e:
+                print(e)
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        transaction.save()
+        user_transactions = Transaction.objects.filter(user=user)
+        user_holdings = Holdings.objects.filter(user=user)
+
+        transactions_serializer = TransactionSerializer(user_transactions, many=True)
+        holdings_serializer = HoldingsSerializer(user_holdings, many=True)
+        return Response({
+            "user_transactions": transactions_serializer.data,
+            "user_holdings": holdings_serializer.data,
+        },
             status=status.HTTP_201_CREATED,
         )
     except Exception as e:
@@ -75,7 +103,6 @@ def get_all_user_transactions(request):
         user = request.user
         transactions = Transaction.objects.filter(user=user)
         serializer = TransactionSerializer(transactions, many=True)
-        print(serializer.data)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Exception as e:
@@ -91,13 +118,11 @@ def get_all_user_data(request):
 
     transactions_serializer = TransactionSerializer(transactions, many=True)
     holdings_serializer = HoldingsSerializer(holdings, many=True)
-
-    print(transactions_serializer.data)
-    print(holdings_serializer.data)
+    user_serializer = UserSerializer(user)
 
     return Response({
         "user_transactions": transactions_serializer.data,
-        "user_holdings": holdings_serializer.data
+        "user_holdings": holdings_serializer.data,
     })
 
 #Holdings

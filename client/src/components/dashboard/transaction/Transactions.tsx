@@ -8,13 +8,6 @@ interface props {
 
 const Transactions: React.FC<props> = ({ userData }) => {
 
-  useEffect(() => {
-
-    return () => {
-
-    }
-  }, [userData])
-
   return (
     <>
       <TransactionHistory userData={userData}></TransactionHistory>

@@ -21,12 +21,12 @@ import { TransactionType } from "../../../enums/TransactionTypesEnum"
 
 const transactionTypeValues = Object.values(TransactionType)
 
-interface props{
+interface props {
     setTransactionType: React.Dispatch<string>
     transactionType: string
 }
 
-const TransactionComboBox: React.FC<props> = ({setTransactionType, transactionType}) => {
+const TransactionComboBox: React.FC<props> = ({ setTransactionType, transactionType }) => {
     const [open, setOpen] = React.useState(false)
 
     return (

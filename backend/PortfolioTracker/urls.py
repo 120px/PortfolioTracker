@@ -22,5 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("authentication/", include("authentication.urls")),
     path("transactions/", include("transactions.urls")),
-    path("yfinanceapi/", include("yfinanceapi.urls"))
+    path("yfinanceapi/", include("yfinanceapi.urls")),
+    path("userinformation/", include("userinformation.urls")),
+    path("importdata/", include("importdata.urls"))
 ]
