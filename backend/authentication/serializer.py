@@ -2,7 +2,6 @@ from .models import CustomUser
 from rest_framework import serializers
 
 class UserSerializer(serializers.ModelSerializer):
-    total_contribution = serializers.SerializerMethodField()
     class Meta:
         model = CustomUser
         fields = ["username", "password"]

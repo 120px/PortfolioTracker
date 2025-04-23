@@ -44,7 +44,6 @@ def register_transaction(request):
                 print("holding")
                 holding.save()
 
-                user.total_contribution += transaction_cost
                 user.save()
             except Exception as e:
                 print(e)
