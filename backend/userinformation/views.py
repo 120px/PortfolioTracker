@@ -27,7 +27,6 @@ def calculate_portfolio_value(request):
         total_value = 0
 
         if holdings_data:
-            print(holdings_data[0])
             for obj in holdings_data:
                 price = searchTicker.get_fund_ticker_price(obj["ticker"])
                 total_value += (Decimal(price) * Decimal(obj["num_of_shares"])).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)

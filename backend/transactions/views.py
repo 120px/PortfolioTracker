@@ -81,15 +81,12 @@ def register_transaction(request):
         transaction.save()
         user_transactions = Transaction.objects.filter(user=user)
         user_holdings = Holdings.objects.filter(user=user)
-        user_serializer = UserSerializer(user)
-        user_general_information = user_serializer.get_contribution_information(user)
 
         transactions_serializer = TransactionSerializer(user_transactions, many=True)
         holdings_serializer = HoldingsSerializer(user_holdings, many=True)
         return Response({
             "user_transactions": transactions_serializer.data,
             "user_holdings": holdings_serializer.data,
-            "user_general_information": user_general_information
         },
             status=status.HTTP_201_CREATED,
         )
@@ -122,12 +119,10 @@ def get_all_user_data(request):
     transactions_serializer = TransactionSerializer(transactions, many=True)
     holdings_serializer = HoldingsSerializer(holdings, many=True)
     user_serializer = UserSerializer(user)
-    user_general_information = user_serializer.get_contribution_information(user)
 
     return Response({
         "user_transactions": transactions_serializer.data,
         "user_holdings": holdings_serializer.data,
-        "user_general_information": user_general_information
     })
 
 #Holdings

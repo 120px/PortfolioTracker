@@ -5,7 +5,7 @@ class UserSerializer(serializers.ModelSerializer):
     total_contribution = serializers.SerializerMethodField()
     class Meta:
         model = CustomUser
-        fields = ["username", "password", "total_contribution"]
+        fields = ["username", "password"]
 
     def create(self, validated_data):
         user = CustomUser(
@@ -17,8 +17,4 @@ class UserSerializer(serializers.ModelSerializer):
 
     def get(self):
         return self
-    def get_contribution_information(self, obj):
-        return {
-            "total_contribution": obj.total_contribution
-        }
 

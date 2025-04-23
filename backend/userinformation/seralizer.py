@@ -5,5 +5,5 @@ class SnapshotSerializer(serializers.ModelSerializer):
     print("SnapshotSerializer")
 
     class Meta:
-        model = PortfolioSnapshot
-        fields = ["date", "portfolio_value"]
+        # model = PortfolioSnapshot
+        fields = ["date"]
